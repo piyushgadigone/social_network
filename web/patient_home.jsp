@@ -18,7 +18,7 @@
             <a href="PatientServlet?page=profile">View Profile</a>
             <a href="PatientServlet?page=reviews">View Reviews</a>
             <a href="PatientServlet?page=friends">Friends</a>
-            <a href="PatientServlet?page=logout">Logout</a>
+            <a href="LogoutServlet">Logout</a>
         </div>
     </body>
 </html>
