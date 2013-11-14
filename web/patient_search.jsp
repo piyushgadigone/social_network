@@ -59,83 +59,13 @@
                     <label for="lastname">Last Name</label>
                     <input type="text" class="form-control block-centered" name="lastname" id="lastname" placeholder="Enter Last Name">
                 </div>
-                <div class="form-group" style="float: left;">
-                    <label for="gender">Gender</label>
-                    <select name="gender" id="gender" class="selectpicker">
-                        <option value="">Both</option>
-                        <option value="m">Male</option>
-                        <option value="f">Female</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" style="float: left; padding-left: 20px;">
-                    <label for="stars">Minimum Star Rating</label>
-                    <select name="stars" id="stars" class="selectpicker">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" style="float: left; padding-left: 20px; padding-right: 30px">
-                    <label for="stars">Minimum years of experience</label>
-                    <select name="stars" id="stars" class="selectpicker">
-                        <option value="0">1</option>
-                        <option value="1">2</option>
-                        <option value="2">4</option>
-                        <option value="3">4</option>
-                        <option value="4">5</option>
-                        <option value="5">10</option>
-                    </select>
-                </div>
-
-                <div>
-                    <p>Works at:</p>
-                </div>
-
                 <div class="form-group">
-                    <label for="street">Street Name</label>
-                    <input type="text" class="form-control block-centered" name="street" id="street" placeholder="Enter Street Name">
+                    <label for="email">Email address</label>
+                    <input type="text" maxlength="6" class="form-control block-centered" name="email" id="postalCode" placeholder="Enter Email address">
                 </div>
-                <div class="form-group">
-                    <label for="street">City</label>
-                    <input type="text" class="form-control block-centered" name="street" id="city" placeholder="Enter City">
-                </div>
-
-                <div class="form-group">
-                    <label for="postalCode">Postal Code</label>
-                    <input type="text" maxlength="6" class="form-control block-centered" name="postalCode" id="postalCode" placeholder="Enter Postal Code">
-                </div>
-                
-                <div class="form-group">
-                    <label for="province">Province</label>
-                    <select class="selectpicker" name="province" id="province" >
-                        <option>ON</option>
-                        <option>QC</option>
-                        <option>BC</option>
-                        <option>AB</option>
-                        <option>MB</option>
-                        <option>SK</option>
-                        <option>NS</option>
-                        <option>NB</option>
-                        <option>NL</option>
-                        <option>PE</option>
-                        <option>NT</option>
-                        <option>YT</option>
-                        <option>NY</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <input type="checkbox" name="recommended"> Recommended By a Friend.
-                </div>
-
                 <button type="submit" class="btn btn-default ">Submit</button>
             </div>
-        </form>
+      </form>
     </div> <!-- /container -->
     <div class="footer">
         <p>&copy; Medicare 2013</p>
