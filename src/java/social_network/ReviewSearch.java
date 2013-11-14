@@ -4,16 +4,18 @@
  */
 package social_network;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Piyush
  */
 public class ReviewSearch {
-    private String doctorLogin;
-    private String patientLogin;
-    private String dateTime;
-    private int ratings;
-    private String comments;
+    private String doctorLogin = null;
+    private String patientLogin = null;
+    private Timestamp dateTime = null;
+    private int ratings = -1;
+    private String comments = null;
 
     /**
      * @return the doctorLogin
@@ -46,14 +48,14 @@ public class ReviewSearch {
     /**
      * @return the dateTime
      */
-    public String getDateTime() {
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
     /**
      * @param dateTime the dateTime to set
      */
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
 
