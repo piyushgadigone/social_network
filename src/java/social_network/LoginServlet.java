@@ -39,15 +39,23 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         try {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
+            boolean validLogin = true;
+            
+            String login;
+            String password = "";
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+                login = request.getParameter("login");
+                password = request.getParameter("password");
+            } else {
+                login = request.getSession().getAttribute("login").toString();
+            }
             Authentication authentication = new Authentication();
             authentication.setLogin(login);
             authentication.setPassword(password);
             
-            
             try {
-                if(AuthenticationDBAO.isValidLogin(authentication)) {
+                if(validLogin || AuthenticationDBAO.isValidLogin(authentication)) {
                     if (PatientDBAO.isPatient(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
                         request.getServletContext().getRequestDispatcher("/patient_home.jsp").forward(request, response);
