@@ -19,7 +19,6 @@
     <% reviewsList = (ArrayList<Review>) request.getAttribute("listOfReviews");%>
     <%
             if (reviewsList != null) {
-                out.println("<h1>Patient Data</h1>");
                 out.println("<table border=1>");
                 out.println("<tr><th>Patient</th><th>Doctor</th><th>Comments</th></tr>");
                 for (Review rev : reviewsList) {

@@ -51,19 +51,37 @@ public class ProfileServlet extends HttpServlet {
             }
             try {
                 if(validLogin) {
-                    if (intQueryParam == 1) { // Patient Info
-                        ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
-                        request.setAttribute("listOfReviews", listOfReviews);     
-                        ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
-                        request.setAttribute("listOfFriends", listOfFriends);
-                        url = "/patient_view_for_admin.jsp";
-                     } else if(intQueryParam == 2) {  // Doctor Info
-                         Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
-                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
-                         request.setAttribute("listOfReviews", listOfReviews); 
-                         request.setAttribute("doctor", fullDoctorProfile);
-                         url = "/doctor_view_for_admin.jsp";
-                     }   
+                    if(request.getSession().getAttribute("role") != null) {
+                        if(request.getSession().getAttribute("role").toString().equals("admin")) {
+                            if (intQueryParam == 1) { // Patient Info
+                                ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
+                                request.setAttribute("listOfReviews", listOfReviews);     
+                                ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
+                                request.setAttribute("listOfFriends", listOfFriends);
+                                url = "/patient_view_for_admin.jsp";
+                             } else if(intQueryParam == 2) {  // Doctor Info
+                                 Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
+                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                                 request.setAttribute("listOfReviews", listOfReviews); 
+                                 request.setAttribute("doctor", fullDoctorProfile);
+                                 url = "/doctor_view_for_admin.jsp";
+                             }   
+                        }else if(request.getSession().getAttribute("role").toString().equals("patient")){
+                             if (intQueryParam == 1) { // Patient Info
+                                ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
+                                request.setAttribute("listOfReviews", listOfReviews);     
+                                ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
+                                request.setAttribute("listOfFriends", listOfFriends);
+                                url = "/patient_view_for_patient.jsp";
+                             } else if(intQueryParam == 2) {  // Doctor Info
+                                 Doctor partialDoctorProfile = DoctorDBAO.getDoctorInfoForPatient(doctorLogin);
+                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                                 request.setAttribute("listOfReviews", listOfReviews); 
+                                 request.setAttribute("doctor", partialDoctorProfile);
+                                 url = "/doctor_view_for_patient.jsp";
+                             }   
+                        }
+                    }
                 }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
