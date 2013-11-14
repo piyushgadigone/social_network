@@ -50,7 +50,7 @@
         <p class="lead">
             <%= request.getSession().getAttribute("login") %>, welcome to the network of all networks!
         </p>
-        <p><a class="btn btn-lg btn-success" href="" role="button">Begin Searching</a></p>
+        <p><a class="btn btn-lg btn-success" href="patient_search.jsp" role="button">Begin Searching</a></p>
       </div>
     </div> <!-- /container -->
     <div class="footer">
