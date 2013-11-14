@@ -48,91 +48,54 @@ public class SearchDBAO {
         }
         return con;
     }
-/*
- *     private String login;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String gender;
-    private String license_year;
-    private String specialisation;
-    private String streetNumber;
-    private String streetName;
-    private String postalCode;
-    private String houseNumber;
-    private String city;
-    private String province;
- */
-  /* public static ArrayList<Doctor> getDoctorLogins(DoctorSearch ds) 
+
+   public static ArrayList<Doctor> getSearchDoctors(DoctorSearch ds) 
            throws ClassNotFoundException, SQLException {
        Connection con = null;
        Statement stmt = null;
-       Doctor doctor = new Doctor();
        String query = null;
        try {
            con = getConnection();
            stmt = con.createStatement();
-           query = "SELECT * FROM Doctor NATURAL JOIN Specialisation "
-                   + "NATURAL JOIN Address WHERE 1=1 AND login ";
+           query = "SELECT distinct login FROM Doctor NATURAL JOIN Specialisation "
+                   + "NATURAL JOIN Address WHERE ";
            
+           if(ds!=null) {
+                if(ds.getLogin()!= null)
+                    query += "login LIKE '%"+ds.getLogin()+"%' AND ";
+                if(ds.getFirstName() != null)
+                    query += "first_name LIKE '%"+ds.getFirstName()+"%' AND ";
+                if(ds.getMiddleName() != null)
+                    query += "middle_name LIKE '%"+ds.getMiddleName()+"%' AND ";
+                if(ds.getLastName() != null)
+                    query += "last_name LIKE '%"+ds.getLastName()+"%' AND ";
+                if(ds.getGender()!= null)
+                    query += "last_name LIKE '%"+ds.getGender()+"%' AND ";
+                if(ds.getLicense_year()!= null)
+                    query += "license_year LIKE '%"+ds.getLicense_year()+"%' AND ";
+                if(ds.getSpecialisation()!= null)
+                    query += "specialisation LIKE '%"+ds.getSpecialisation()+"%' AND ";
+                if(ds.getStreetNumber()!= 0)
+                    query += "street_number LIKE "+ds.getStreetNumber()+" AND ";
+                if(ds.getHouseNumber()!= null)
+                    query += "street_name LIKE '%"+ds.getStreetName()+"%' AND ";
+                if(ds.getPostalCode()!= null)
+                    query += "postal_code LIKE '%"+ds.getPostalCode()+"%' AND ";
+                if(ds.getHouseNumber()!= null)
+                    query += "house_number LIKE '%"+ds.getHouseNumber()+"%' AND ";
+                if(ds.getCity()!= null)
+                    query += "city LIKE '"+ds.getCity()+"' AND ";
+                if(ds.getProvince()!= null)
+                    query += "province LIKE '"+ds.getProvince()+"' AND ";
+                }
+            query+="1=1;";
+           ResultSet resultSet = stmt.executeQuery(query);
            
-           ResultSet resultSet = pStmt.executeQuery();
-           
-           ArrayList<Address> addresses = new ArrayList<Address>();
-           ArrayList<String> specialisations = new ArrayList<String>();
-           ArrayList<Review> reviews = new ArrayList<Review>();
-           while (resultSet.next()) {
-                doctor.setLogin(login);
-                doctor.setFirstName(resultSet.getString("first_name"));
-                doctor.setLastName(resultSet.getString("last_name"));
-                doctor.setMiddleName(resultSet.getString("middle_name"));
-                doctor.setGender(resultSet.getString("gender"));
-                doctor.setLicenceYear(resultSet.getDate("license_year"));
-                doctor.setDob(resultSet.getDate("date_of_birth"));
+           ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
+           while(resultSet.next()) {
+               doctorList.add(DoctorDBAO.getDoctorInfo(resultSet.getString("login")));
            }
-           
-           pStmt = con.prepareStatement("SELECT * FROM Specialisation WHERE login=?");
-           pStmt.setString(1, login);
-           
-           resultSet = pStmt.executeQuery();
-           while (resultSet.next()) {
-                specialisations.add(resultSet.getString("area_of_specialisation"));
-           }
-           
-           pStmt = con.prepareStatement("SELECT * FROM Address WHERE login=?");
-           pStmt.setString(1, login);
-           
-           resultSet = pStmt.executeQuery();
-           while (resultSet.next()) {
-                Address address = new Address();
-                address.setCity(resultSet.getString("city"));
-                address.setHouseNumber(resultSet.getString("house_number"));
-                address.setPostalCode(resultSet.getString("postal_code"));
-                address.setProvince(resultSet.getString("province"));
-                address.setStreetName(resultSet.getString("street_name"));
-                address.setStreetNumber(resultSet.getString("street_number"));
-                address.setType(resultSet.getString("type"));
-                addresses.add(address);
-           }
-           
-           pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=?");
-           pStmt.setString(1, login);
-           
-           resultSet = pStmt.executeQuery();
-           while (resultSet.next()) {
-                Review review = new Review();
-                review.setComments(resultSet.getString("comments"));
-                review.setDoctorLogin(resultSet.getString("doctor_login"));
-                review.setPatientLogin(resultSet.getString("patient_login"));
-                review.setRating(resultSet.getInt("rating"));
-                review.setDatetime(resultSet.getTimestamp("datetime"));
-                reviews.add(review);
-           }
-           
-           doctor.setSpecialisations(specialisations);
-           doctor.setAddresses(addresses);
-           doctor.setReviews(reviews);
-           return doctor;
+           return doctorList;
        } finally {
             if (stmt != null) {
                 stmt.close();
@@ -141,5 +104,5 @@ public class SearchDBAO {
                 con.close();
             }    
        }
-   }*/
+   }
 }
