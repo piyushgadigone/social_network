@@ -57,15 +57,16 @@ public class LoginServlet extends HttpServlet {
                         request.setAttribute("doctor", doctor);
                         request.getServletContext().getRequestDispatcher("/doctor_home.jsp").forward(request, response);
                     }  else if(AdminDBAO.isAdmin(authentication.getLogin())) {
+                        session.setAttribute("login", authentication.getLogin());
                         Admin curAdmin = null;
                         try {
                             curAdmin = AdminDBAO.getAdminInfo(request.getSession().getAttribute("login").toString());
                         } catch (SQLException ex) {
                             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        request.getServletContext().getRequestDispatcher("/admin_home.jsp").forward(request, response);
-                        session.setAttribute("login", authentication.getLogin());
                         session.setAttribute("admin", curAdmin);
+                        request.getServletContext().getRequestDispatcher("/admin_home.jsp").forward(request, response);
+                        
                     }
                 }
                 else {
