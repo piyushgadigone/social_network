@@ -20,6 +20,46 @@ public class SearchDBAO {
     public static final String user = "user_s52gupta";
     public static final String pwd = "user_s52gupta";
 
+   public static ArrayList<Patient> getSearchPatients(PatientSearch ps) 
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       Statement stmt = null;
+       String query = null;
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           query = "SELECT distinct login FROM Patient WHERE ";
+           
+           if(ps != null) {
+                if(ps.getLogin()!= null)
+                    query += "login LIKE '%"+ps.getLogin()+"%' AND ";
+                if(ps.getFirstName() != null)
+                    query += "first_name LIKE '%"+ps.getFirstName()+"%' AND ";
+                if(ps.getMiddleName() != null)
+                    query += "middle_name LIKE '%"+ps.getMiddleName()+"%' AND ";
+                if(ps.getLastName() != null)
+                    query += "last_name LIKE '%"+ps.getLastName()+"%' AND ";
+                if(ps.getEmailAddress()!= null)
+                    query += "last_name LIKE '%"+ps.getEmailAddress()+"%' AND ";
+           }
+           query+="1=1;";
+           ResultSet resultSet = stmt.executeQuery(query);
+           
+           ArrayList<Patient> patientList = new ArrayList<Patient>();
+           while(resultSet.next()) {
+               patientList.add(PatientDBAO.getPatientInfo(resultSet.getString("login")));
+           }
+           return patientList;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
+   }
+   
     public static void testConnection()
             throws ClassNotFoundException, SQLException {
         Connection con = null;

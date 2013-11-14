@@ -1,8 +1,9 @@
 <%-- 
-    Document   : home_page
-    Created on : 10-Nov-2013, 12:44:55 AM
+    Document   : doctor_profile
+    Created on : 12-Nov-2013, 1:50:15 AM
     Author     : Yash Malik
 --%>
+<%@page import="social_network.Patient"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Search</title>
+    <title>Doctor profile</title>
 
     <!-- Bootstrap core CSS -->
     <link href="style/bootstrap.css" rel="stylesheet">
@@ -31,13 +32,22 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
+  <style type="text/css">
+      
+      .profilelabel {
+	color:#999;
+	text-align:right;
+	vertical-align:top;
+	white-space:nowrap;
+    }
 
+  </style>
   <body>
 
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="LoginServlet">Home</a></li>
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
           <li><a href="PatientServlet?page=friends">Friends</a></li>
@@ -45,27 +55,21 @@
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
-      <form method="post" action="PatientSearchServlet" class="query-form block-centered">
-            <div class="well well block-centered">
-                <div class="form-group">
-                    <label for="login">Login</label>
-                    <input type="text" class="form-control block-centered" name="login" id="username" placeholder="Enter Username">
-                </div>
-                <div class="form-group" style="float: left; width:48%">
-                    <label for="firstname">First Name</label>
-                    <input type="text" class="form-control block-centered" name="firstname" id="firstname" placeholder="Enter First Name">
-                </div>
-                <div class="form-group" style="float: right; width:48%">
-                    <label for="lastname">Last Name</label>
-                    <input type="text" class="form-control block-centered" name="lastname" id="lastname" placeholder="Enter Last Name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="text" maxlength="6" class="form-control block-centered" name="email" id="postalCode" placeholder="Enter Email address">
-                </div>
-                <button type="submit" class="btn btn-default ">Submit</button>
-            </div>
-      </form>
+      
+      <div style="height: 800px;">
+      <h3>Friend Search</h3>
+      <%
+         ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
+         for (social_network.Patient result : results) {
+       %>
+            <h4><%= result.getFirstName() + "  " + result.getLastName()%></h4>
+            <p><i><%= result.getEmailAddress() %></i></p>
+      <%
+         }
+      %> 
+
+      </div>
+
     </div> <!-- /container -->
     <div class="footer">
         <p>&copy; Medicare 2013</p>
