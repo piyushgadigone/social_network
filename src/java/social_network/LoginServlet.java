@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
+        String url = null;;
         try {
             boolean validLogin = true;
             
@@ -58,12 +59,12 @@ public class LoginServlet extends HttpServlet {
                 if(validLogin || AuthenticationDBAO.isValidLogin(authentication)) {
                     if (PatientDBAO.isPatient(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
-                        request.getServletContext().getRequestDispatcher("/patient_home.jsp").forward(request, response);
+                        url = "/patient_home.jsp";
                     } else if(DoctorDBAO.isDoctor(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
                         Doctor doctor = DoctorDBAO.getDoctorInfo(authentication.getLogin());
                         request.setAttribute("doctor", doctor);
-                        request.getServletContext().getRequestDispatcher("/doctor_home.jsp").forward(request, response);
+                        url = "/doctor_home.jsp";
                     }  else if(AdminDBAO.isAdmin(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
                         Admin curAdmin = null;
@@ -73,16 +74,18 @@ public class LoginServlet extends HttpServlet {
                             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         session.setAttribute("admin", curAdmin);
-                        request.getServletContext().getRequestDispatcher("/admin_home.jsp").forward(request, response);
-                        
+                        url = "/admin_home.jsp";
                     }
                 }
                 else {
-                    request.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                    url = "/index.jsp";
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception e) {
+                request.setAttribute("exception", e);
+                url = "/error.jsp";
             }
+            
+            getServletContext().getRequestDispatcher(url).forward(request, response);
             
             
             /* TODO output your page here. You may use following sample code. */

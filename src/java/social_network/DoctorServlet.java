@@ -35,23 +35,24 @@ public class DoctorServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-                    PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
+        String url = null;            
         try {
             try {
                 Doctor doctor = DoctorDBAO.getDoctorInfo(request.getSession().getAttribute("login").toString());
                 request.setAttribute("doctor", doctor);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DoctorServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(DoctorServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception e) {
+                request.setAttribute("exception", e);
+                url = "/error.jsp";
             }
             if(request.getParameter("page").equals("profile")){
-                request.getServletContext().getRequestDispatcher("/doctor_profile.jsp").forward(request, response);
+                url = "/doctor_profile.jsp";
             } 
             else if (request.getParameter("page").equals("reviews")) {
-                request.getServletContext().getRequestDispatcher("/doctor_reviews.jsp").forward(request, response);
+                url = "/doctor_reviews.jsp";
             }
             
+            getServletContext().getRequestDispatcher(url).forward(request, response);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
