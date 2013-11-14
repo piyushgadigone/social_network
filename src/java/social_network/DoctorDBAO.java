@@ -73,6 +73,70 @@ public class DoctorDBAO {
        }
    }
 
+   public static Doctor getDoctorInfoForPatient (String login) 
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       Statement stmt = null;
+       Doctor doctor = new Doctor();
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Doctor WHERE login=?");
+           pStmt.setString(1, login);
+           
+           ResultSet resultSet = pStmt.executeQuery();
+           
+           ArrayList<Address> addresses = new ArrayList<Address>();
+           ArrayList<String> specialisations = new ArrayList<String>();
+           while (resultSet.next()) {
+                doctor.setLogin(login);
+                doctor.setFirstName(resultSet.getString("first_name"));
+                doctor.setLastName(resultSet.getString("last_name"));
+                doctor.setMiddleName(resultSet.getString("middle_name"));
+                doctor.setGender(resultSet.getString("gender"));
+                doctor.setLicenceYear(resultSet.getDate("license_year"));
+           }
+           
+           pStmt = con.prepareStatement("SELECT * FROM Specialisation WHERE login=?");
+           pStmt.setString(1, login);
+           
+           resultSet = pStmt.executeQuery();
+           while (resultSet.next()) {
+                specialisations.add(resultSet.getString("area_of_specialisation"));
+           }
+           
+           pStmt = con.prepareStatement("SELECT * FROM Address WHERE login=?");
+           pStmt.setString(1, login);
+           
+           resultSet = pStmt.executeQuery();
+           while (resultSet.next()) {
+                if(resultSet.getString("type").equals("work")) {
+                    Address address = new Address();
+                    address.setCity(resultSet.getString("city"));
+                    address.setHouseNumber(resultSet.getString("house_number"));
+                    address.setPostalCode(resultSet.getString("postal_code"));
+                    address.setProvince(resultSet.getString("province"));
+                    address.setStreetName(resultSet.getString("street_name"));
+                    address.setStreetNumber(resultSet.getString("street_number"));
+
+                    address.setType(resultSet.getString("type"));
+                    addresses.add(address);
+                }
+           }
+                                 
+           doctor.setSpecialisations(specialisations);
+           doctor.setAddresses(addresses);
+           return doctor;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
+   }
+   
    public static Doctor getDoctorInfo (String login) 
            throws ClassNotFoundException, SQLException {
        Connection con = null;

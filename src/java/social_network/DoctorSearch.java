@@ -4,6 +4,8 @@
  */
 package social_network;
 
+import java.sql.Date;
+
 /**
  *
  * @author Piyush
@@ -14,9 +16,9 @@ public class DoctorSearch {
     private String middleName;
     private String lastName;
     private String gender;
-    private String license_year;
+    private Date license_year;
     private String specialisation;
-    private String streetNumber;
+    private int streetNumber;
     private String streetName;
     private String postalCode;
     private String houseNumber;
@@ -96,14 +98,14 @@ public class DoctorSearch {
     /**
      * @return the license_year
      */
-    public String getLicense_year() {
+    public Date getLicense_year() {
         return license_year;
     }
 
     /**
      * @param license_year the license_year to set
      */
-    public void setLicense_year(String license_year) {
+    public void setLicense_year(Date license_year) {
         this.license_year = license_year;
     }
 
@@ -124,14 +126,14 @@ public class DoctorSearch {
     /**
      * @return the streetNumber
      */
-    public String getStreetNumber() {
+    public int getStreetNumber() {
         return streetNumber;
     }
 
     /**
      * @param streetNumber the streetNumber to set
      */
-    public void setStreetNumber(String streetNumber) {
+    public void setStreetNumber(int streetNumber) {
         this.streetNumber = streetNumber;
     }
 

@@ -59,14 +59,17 @@ public class LoginServlet extends HttpServlet {
                 if(validLogin || AuthenticationDBAO.isValidLogin(authentication)) {
                     if (PatientDBAO.isPatient(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
+                        session.setAttribute("role", "patient");
                         url = "/patient_home.jsp";
                     } else if(DoctorDBAO.isDoctor(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
+                        session.setAttribute("role", "doctor");
                         Doctor doctor = DoctorDBAO.getDoctorInfo(authentication.getLogin());
                         request.setAttribute("doctor", doctor);
                         url = "/doctor_home.jsp";
                     }  else if(AdminDBAO.isAdmin(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
+                        session.setAttribute("role", "admin");
                         Admin curAdmin = null;
                         try {
                             curAdmin = AdminDBAO.getAdminInfo(request.getSession().getAttribute("login").toString());
