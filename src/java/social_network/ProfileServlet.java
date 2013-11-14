@@ -43,20 +43,28 @@ public class ProfileServlet extends HttpServlet {
         // login of the user whose profile they want to see
         try {
             String url = "/index.jsp";
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+            }
             try {
-                if (intQueryParam == 1) { // Patient Info
-                    ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
-                    request.setAttribute("listOfReviews", listOfReviews);     
-                    ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
-                    request.setAttribute("listOfFriends", listOfFriends);
-                    url = "/patient_view_for_admin.jsp";
-                 } else if(intQueryParam == 2) {  // Doctor Info
-                     Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
-                     ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
-                     request.setAttribute("listOfReviews", listOfReviews); 
-                     request.setAttribute("doctor", fullDoctorProfile);
-                     url = "/doctor_view_for_admin.jsp";
-                 }   
+                if(validLogin) {
+                    if (intQueryParam == 1) { // Patient Info
+                        ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
+                        request.setAttribute("listOfReviews", listOfReviews);     
+                        ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
+                        request.setAttribute("listOfFriends", listOfFriends);
+                        url = "/patient_view_for_admin.jsp";
+                     } else if(intQueryParam == 2) {  // Doctor Info
+                         Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
+                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                         request.setAttribute("listOfReviews", listOfReviews); 
+                         request.setAttribute("doctor", fullDoctorProfile);
+                         url = "/doctor_view_for_admin.jsp";
+                     }   
+                }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp"; // TODO: beautify exception page
