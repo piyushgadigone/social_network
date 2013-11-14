@@ -1,7 +1,7 @@
 <%-- 
     Document   : doctor_profile
     Created on : 12-Nov-2013, 1:50:15 AM
-    Author     : Satyam
+    Author     : Piyush
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
