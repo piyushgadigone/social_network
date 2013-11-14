@@ -38,6 +38,7 @@
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
           <li><a href="DoctorServlet?page=profile">Profile</a></li>
+          <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
@@ -47,7 +48,6 @@
         <p class="lead">
             <%= request.getSession().getAttribute("login") %>, welcome to the network of all networks!
         </p>
-        <p><a class="btn btn-lg btn-success" href="" role="button">Begin Searching</a></p>
       </div>
       <div class="row marketing">
           <div class="col-lg-6" style="width:80%">
