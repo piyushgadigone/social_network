@@ -51,6 +51,67 @@ public class ReviewDBAO {
         return con;
     }
     
+     public static ArrayList<Review> getAllReviewsForDoctor(String login) 
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        ArrayList<Review> listOfReviews = new ArrayList<Review>();
+        PreparedStatement pStmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = getConnection();
+            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=?");
+            pStmt.setString(1, login);
+            resultSet = pStmt.executeQuery();
+            while(resultSet.next()) {
+                Review rev = new Review();
+                rev.setPatientLogin(resultSet.getString("patient_login"));
+                rev.setComments(resultSet.getString("comments"));
+                rev.setDatetime(resultSet.getTimestamp("datetime"));
+                rev.setRating(resultSet.getInt("rating"));
+                listOfReviews.add(rev);
+            }
+            return listOfReviews;
+        }finally {
+            if (pStmt != null) {
+                pStmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+        }
+    }
+    
+    public static ArrayList<Review> getAllReviewsByPatient(String login) 
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        ArrayList<Review> listOfReviews = new ArrayList<Review>();
+        PreparedStatement pStmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = getConnection();
+            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE patient_login=?");
+            pStmt.setString(1, login);
+            resultSet = pStmt.executeQuery();
+            while(resultSet.next()) {
+                Review rev = new Review();
+                rev.setDoctorLogin(resultSet.getString("doctor_login"));
+                rev.setComments(resultSet.getString("comments"));
+                rev.setDatetime(resultSet.getTimestamp("datetime"));
+                rev.setRating(resultSet.getInt("rating"));
+                rev.setPatientLogin(login);
+                listOfReviews.add(rev);
+            }
+            return listOfReviews;
+        }finally {
+            if (pStmt != null) {
+                pStmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+        }
+    }
+    
     public static ArrayList<Review> getAllReviews() throws SQLException, ClassNotFoundException {
        Connection con = null;
        ArrayList<Review> listOfReviews = new ArrayList<Review>();
