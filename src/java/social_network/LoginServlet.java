@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
-        String url = null;;
+        String url = null;
         try {
             boolean validLogin = true;
             

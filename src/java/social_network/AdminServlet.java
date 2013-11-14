@@ -41,18 +41,26 @@ public class AdminServlet extends HttpServlet {
         int intQueryParam = Integer.parseInt(strQueryParam);
         try {
             String url = "/index.jsp";
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+            }
             try {
-                if (intQueryParam == 1) {
-                    ArrayList<Patient> listOfPatients = PatientDBAO.getAllPatients();
-                    request.setAttribute("listOfPatients", listOfPatients);     
-                    ArrayList<Doctor> listOfDoctors = DoctorDBAO.getAllDoctors();
-                    request.setAttribute("listOfDoctors", listOfDoctors);
-                    url = "/users_list.jsp";
-                 } else if(intQueryParam == 2) {  
-                     ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviews();
-                     request.setAttribute("listOfReviews", listOfReviews); 
-                     url = "/monitor_reviews.jsp";
-                 }   
+                if(validLogin) {
+                    if (intQueryParam == 1) {
+                        ArrayList<Patient> listOfPatients = PatientDBAO.getAllPatients();
+                        request.setAttribute("listOfPatients", listOfPatients);     
+                        ArrayList<Doctor> listOfDoctors = DoctorDBAO.getAllDoctors();
+                        request.setAttribute("listOfDoctors", listOfDoctors);
+                        url = "/users_list.jsp";
+                     } else if(intQueryParam == 2) {  
+                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviews();
+                         request.setAttribute("listOfReviews", listOfReviews); 
+                         url = "/monitor_reviews.jsp";
+                     }
+                }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
