@@ -27,6 +27,7 @@ public class DoctorSearch {
     private int rating = -1;
     private boolean recommendedByFriend = false;
 
+
     /**
      * @return the login
      */

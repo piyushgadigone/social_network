@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
  *
  * @author Piyush
  */
@@ -38,6 +40,13 @@ public class SearchServlet extends HttpServlet {
             if(!middleName.isEmpty())
             docSearch.setMiddleName(middleName);
         }
+        if(request.getParameter("lastname") != null ) {
+            String lastName = (String)request.getParameter("lastname");
+            if(!lastName.isEmpty())
+            docSearch.setLastName(lastName);
+        }
+        
+
         if(request.getParameter("lastname") != null ) {
             String lastName = (String)request.getParameter("lastname");
             if(!lastName.isEmpty())
@@ -106,9 +115,11 @@ public class SearchServlet extends HttpServlet {
             DoctorSearch ds = createDoctorSearchObject(request);
 
             ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
+
             request.setAttribute("listOfDoctors", listOfDoctors);
             url = "/doctor_search_results.jsp";
             
+
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
              /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -128,8 +139,7 @@ public class SearchServlet extends HttpServlet {
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-            
-                request.setAttribute("exception", ex);
+            request.setAttribute("exception", ex);
             url = "/error.jsp";
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (Exception e) {
@@ -138,12 +148,10 @@ public class SearchServlet extends HttpServlet {
                 request.getServletContext().getRequestDispatcher(url).forward(request, response);
         }finally {
             out.close();
-        }
+        } 
         
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+/**
      * Handles the HTTP
      * <code>GET</code> method.
      *
