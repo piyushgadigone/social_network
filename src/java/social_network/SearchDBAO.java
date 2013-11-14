@@ -66,7 +66,7 @@ public class SearchDBAO {
            con = getConnection();
            stmt = con.createStatement();
            query = "SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login = Specialisation.login"
-                   + "LEFT JOIN Address ON Doctor.login = Address.login WHERE ";
+                   + " LEFT JOIN Address ON Doctor.login = Address.login WHERE ";
            
            if(ds!=null) {
                 if(ds.getLogin()!= null)

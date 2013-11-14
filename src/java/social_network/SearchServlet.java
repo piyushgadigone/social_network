@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Piyush
  */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
-public class DoctorSearchServlet extends HttpServlet {
+public class SearchServlet extends HttpServlet {
     private DoctorSearch createDoctorSearchObject(HttpServletRequest request) {
         
         DoctorSearch docSearch = new DoctorSearch();
@@ -32,28 +32,35 @@ public class DoctorSearchServlet extends HttpServlet {
             if(!firstName.isEmpty())
             docSearch.setFirstName(firstName);
         }
-        /*
-        if(request.getParameter("middle_name") != null) {
-            docSearch.setMiddleName(request.getParameter("middle_name"));
-        }*/
+        
+        if(request.getParameter("middlename") != null) {
+            String middleName = (String)request.getParameter("middlename");
+            if(!middleName.isEmpty())
+            docSearch.setMiddleName(middleName);
+        }
         if(request.getParameter("lastname") != null ) {
             String lastName = (String)request.getParameter("lastname");
             if(!lastName.isEmpty())
             docSearch.setLastName(lastName);
         }
-        /*
+        
         if(request.getParameter("gender") != null) {
+            String gender = (String)request.getParameter("gender");
+            if(!gender.isEmpty())
             docSearch.setGender(request.getParameter("gender"));
         }
-        if(request.getParameter("num_years_experience") != null) {
+        if(request.getParameter("numyears") != null) {
             Calendar now = Calendar.getInstance();
             java.util.Date curTime = now.getTime();
-            int num_years_ago = Integer.parseInt(request.getParameter("num_years_experience"));
-            now.add(Calendar.YEAR, -num_years_ago);
-            java.sql.Date licenseYear;
-            licenseYear = new java.sql.Date(now.getTime().getTime());
-            //Date licenseYear = Date.parse(request.getParameter("num_"))
-            docSearch.setLicense_year(licenseYear);
+            String numYears = (String)request.getParameter("numyears");
+            if(!numYears.isEmpty()) {
+                int num_years_ago = Integer.parseInt(request.getParameter("numyears"));
+                now.add(Calendar.YEAR, -num_years_ago);
+                java.sql.Date licenseYear;
+                licenseYear = new java.sql.Date(now.getTime().getTime());
+                //Date licenseYear = Date.parse(request.getParameter("num_"))
+                docSearch.setLicense_year(licenseYear);
+            }
         }
         if(request.getParameter("specialisation") != null) {
             docSearch.setSpecialisation(request.getParameter("specialisation"));
@@ -76,7 +83,7 @@ public class DoctorSearchServlet extends HttpServlet {
         if(request.getParameter("province") != null) {
             docSearch.setProvince(request.getParameter("province"));
         }
-        */
+        
         return docSearch;
     }
     /**
@@ -99,8 +106,9 @@ public class DoctorSearchServlet extends HttpServlet {
             DoctorSearch ds = createDoctorSearchObject(request);
 
             ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
-            request.setAttribute("doctorSearchResults", listOfDoctors);
+            request.setAttribute("listOfDoctors", listOfDoctors);
             url = "/doctor_search_results.jsp";
+            
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
              /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -113,17 +121,25 @@ public class DoctorSearchServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
+                request.setAttribute("exception", ex);
             url = "/error.jsp";
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
+                request.setAttribute("exception", ex);
             url = "/error.jsp";
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
-        }finally {            
+                request.getServletContext().getRequestDispatcher(url).forward(request, response);
+        }finally {
             out.close();
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

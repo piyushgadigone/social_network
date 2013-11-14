@@ -59,6 +59,7 @@
                     <label for="lastname">Last Name</label>
                     <input type="text" class="form-control block-centered" name="lastname" id="lastname" placeholder="Enter Last Name">
                 </div>
+                
                 <div class="form-group" style="float: left;">
                     <label for="gender">Gender</label>
                     <select name="gender" id="gender" class="selectpicker">
@@ -82,7 +83,7 @@
                 
                 <div class="form-group" style="float: left; padding-left: 20px; padding-right: 30px">
                     <label for="stars">Minimum years of experience</label>
-                    <select name="stars" id="stars" class="selectpicker">
+                    <select name="numyears" id="stars" class="selectpicker">
                         <option value="0">1</option>
                         <option value="1">2</option>
                         <option value="2">4</option>
@@ -102,7 +103,7 @@
                 </div>
                 <div class="form-group">
                     <label for="street">City</label>
-                    <input type="text" class="form-control block-centered" name="street" id="city" placeholder="Enter City">
+                    <input type="text" class="form-control block-centered" name="city" id="city" placeholder="Enter City">
                 </div>
 
                 <div class="form-group">
