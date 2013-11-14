@@ -6,8 +6,10 @@ package social_network;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,7 +24,55 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
 public class SearchServlet extends HttpServlet {
-
+    private DoctorSearch createDoctorSearchObject(HttpServletRequest request) {
+        
+        DoctorSearch docSearch = new DoctorSearch();
+        if(request.getParameter("first_name") != null) {
+            docSearch.setFirstName(request.getParameter("first_name"));
+        }
+        if(request.getParameter("middle_name") != null) {
+            docSearch.setMiddleName(request.getParameter("middle_name"));
+        }
+        if(request.getParameter("last_name") != null) {
+            docSearch.setLastName(request.getParameter("last_name"));
+        }
+        if(request.getParameter("gender") != null) {
+            docSearch.setGender(request.getParameter("gender"));
+        }
+        if(request.getParameter("num_years_experience") != null) {
+            Calendar now = Calendar.getInstance();
+            java.util.Date curTime = now.getTime();
+            int num_years_ago = Integer.parseInt(request.getParameter("num_years_experience"));
+            now.add(Calendar.YEAR, -num_years_ago);
+            java.sql.Date licenseYear;
+            licenseYear = new java.sql.Date(now.getTime().getTime());
+            //Date licenseYear = Date.parse(request.getParameter("num_"))
+            docSearch.setLicense_year(licenseYear);
+        }
+        if(request.getParameter("specialisation") != null) {
+            docSearch.setSpecialisation(request.getParameter("specialisation"));
+        }
+        if(request.getParameter("street_number") != null) {
+            docSearch.setStreetNumber(Integer.parseInt(request.getParameter("street_number")));
+        }
+        if(request.getParameter("street_name") != null) {
+            docSearch.setStreetName(request.getParameter("street_name"));
+        }
+        if(request.getParameter("postal_code") != null) {
+            docSearch.setPostalCode(request.getParameter("postal_code"));
+        }
+        if(request.getParameter("house_number") != null) {
+            docSearch.setHouseNumber(request.getParameter("house_number"));
+        }
+        if(request.getParameter("city") != null) {
+            docSearch.setCity(request.getParameter("city"));
+        }
+        if(request.getParameter("province") != null) {
+            docSearch.setProvince(request.getParameter("province"));
+        }
+        
+        return docSearch;
+    }
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -38,10 +88,12 @@ public class SearchServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            DoctorSearch ds = new DoctorSearch();
+            
+            DoctorSearch ds = createDoctorSearchObject(request);
             ds.setCity("Calgary");
             ds.setStreetNumber(1);
-            ArrayList<Doctor> list = SearchDBAO.getSearchDoctors(ds);
+            ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
+            request.setAttribute("doctorSearchResults", listOfDoctors);
              /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
