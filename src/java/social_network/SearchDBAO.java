@@ -48,6 +48,14 @@ public class SearchDBAO {
         }
         return con;
     }
+    
+   public static ArrayList<String> getDoctorsWithAvgRating(int avg_rating) {
+       return null;
+   }
+   
+   public static ArrayList<String> getDoctorsRecommendedByFriends(String login) {
+       return null;
+   }
 
    public static ArrayList<Doctor> getSearchDoctors(DoctorSearch ds) 
            throws ClassNotFoundException, SQLException {
@@ -57,8 +65,8 @@ public class SearchDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           query = "SELECT distinct login FROM Doctor NATURAL JOIN Specialisation "
-                   + "NATURAL JOIN Address WHERE ";
+           query = "SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login = Specialisation.login"
+                   + "LEFT JOIN Address ON Doctor.login = Address.login WHERE ";
            
            if(ds!=null) {
                 if(ds.getLogin()!= null)
@@ -72,9 +80,9 @@ public class SearchDBAO {
                 if(ds.getGender()!= null)
                     query += "last_name LIKE '%"+ds.getGender()+"%' AND ";
                 if(ds.getLicense_year()!= null)
-                    query += "license_year LIKE '%"+ds.getLicense_year()+"%' AND ";
+                    query += "license_year > '%"+ds.getLicense_year()+"%' AND ";
                 if(ds.getSpecialisation()!= null)
-                    query += "specialisation LIKE '%"+ds.getSpecialisation()+"%' AND ";
+                    query += "area_of_specialisation LIKE '%"+ds.getSpecialisation()+"%' AND ";
                 if(ds.getStreetNumber()!= 0)
                     query += "street_number LIKE "+ds.getStreetNumber()+" AND ";
                 if(ds.getHouseNumber()!= null)
@@ -90,10 +98,24 @@ public class SearchDBAO {
                 }
             query+="1=1;";
            ResultSet resultSet = stmt.executeQuery(query);
+           ArrayList<String> doctorLoginList = new ArrayList<String>();
+           while(resultSet.next()) {
+               doctorLoginList.add(resultSet.getString("login"));
+           }
+           
+           /*ArrayList<String> tmpList = null;
+           if(ds.getRating()>=0) {
+             tmpList = getDoctorsWithAvgRating(ds.getRating());  
+             for(String a : doctorLoginList) {
+                 for(String b : tmpList) {
+                     if
+                 }
+             }
+           }*/
            
            ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
-           while(resultSet.next()) {
-               doctorList.add(DoctorDBAO.getDoctorInfo(resultSet.getString("login")));
+           for(String s : doctorLoginList) {
+               doctorList.add(DoctorDBAO.getDoctorInfo(s));
            }
            return doctorList;
        } finally {

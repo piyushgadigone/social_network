@@ -24,6 +24,8 @@ public class DoctorSearch {
     private String houseNumber;
     private String city;
     private String province;
+    private int rating;
+    private boolean recommendedByFriend;
 
     /**
      * @return the login
@@ -205,5 +207,33 @@ public class DoctorSearch {
      */
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    /**
+     * @return the rating
+     */
+    public int getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating the rating to set
+     */
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * @return the recommendedByFriend
+     */
+    public boolean isRecommendedByFriend() {
+        return recommendedByFriend;
+    }
+
+    /**
+     * @param recommendedByFriend the recommendedByFriend to set
+     */
+    public void setRecommendedByFriend(boolean recommendedByFriend) {
+        this.recommendedByFriend = recommendedByFriend;
     }
 }
