@@ -47,12 +47,15 @@
         <ul class="nav nav-pills pull-right">
           <li><a href="LoginServlet">Home</a></li>
           <li class="active"><a href="#">Profile</a></li>
+          <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
       <div style="height: 800px;">
+      <h3>Profile</h3>
       <jsp:useBean id="doctor" class="social_network.Doctor" scope="request"/>
-        <p> <span class="profilelabel">Name:</span> <%= doctor.getFirstName() + " " + doctor.getMiddleName() + " " + doctor.getLastName() %><br/>
+        <p> <span class="profilelabel">Login</span> <%= doctor.getLogin() %><br/>
+            <span class="profilelabel">Name:</span> <%= doctor.getFirstName() + " " + doctor.getMiddleName() + " " + doctor.getLastName() %><br/>
             <span class="profilelabel">Gender:</span> <%= doctor.getGender() %><br/>
             <span class="profilelabel">Date of Birth:</span> <%= doctor.getDob()%></br>
             <span class="profilelabel">License Year:</span><%= doctor.getLicenceYear()%></br>
