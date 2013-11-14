@@ -23,19 +23,25 @@ import javax.servlet.http.HttpServletResponse;
  * @author Piyush
  */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
-public class SearchServlet extends HttpServlet {
+public class DoctorSearchServlet extends HttpServlet {
     private DoctorSearch createDoctorSearchObject(HttpServletRequest request) {
         
         DoctorSearch docSearch = new DoctorSearch();
-        if(request.getParameter("first_name") != null) {
-            docSearch.setFirstName(request.getParameter("first_name"));
+        if(request.getParameter("firstname") != null) {
+            String firstName = (String)request.getParameter("firstname");
+            if(!firstName.isEmpty())
+            docSearch.setFirstName(firstName);
         }
+        /*
         if(request.getParameter("middle_name") != null) {
             docSearch.setMiddleName(request.getParameter("middle_name"));
+        }*/
+        if(request.getParameter("lastname") != null ) {
+            String lastName = (String)request.getParameter("lastname");
+            if(!lastName.isEmpty())
+            docSearch.setLastName(lastName);
         }
-        if(request.getParameter("last_name") != null) {
-            docSearch.setLastName(request.getParameter("last_name"));
-        }
+        /*
         if(request.getParameter("gender") != null) {
             docSearch.setGender(request.getParameter("gender"));
         }
@@ -70,7 +76,7 @@ public class SearchServlet extends HttpServlet {
         if(request.getParameter("province") != null) {
             docSearch.setProvince(request.getParameter("province"));
         }
-        
+        */
         return docSearch;
     }
     /**
@@ -87,13 +93,15 @@ public class SearchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String url = null;
         try {
             
             DoctorSearch ds = createDoctorSearchObject(request);
-            ds.setCity("Calgary");
-            ds.setStreetNumber(1);
+
             ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
             request.setAttribute("doctorSearchResults", listOfDoctors);
+            url = "/doctor_search_results.jsp";
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
              /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -105,10 +113,15 @@ public class SearchServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            url = "/error.jsp";
         } catch (SQLException ex) {
-            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {            
+            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            url = "/error.jsp";
+        } catch (Exception e) {
+                request.setAttribute("exception", e);
+                url = "/error.jsp";
+        }finally {            
             out.close();
         }
     }

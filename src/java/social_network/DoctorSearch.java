@@ -11,21 +11,21 @@ import java.sql.Date;
  * @author Piyush
  */
 public class DoctorSearch {
-    private String login;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String gender;
-    private Date license_year;
-    private String specialisation;
-    private int streetNumber;
-    private String streetName;
-    private String postalCode;
-    private String houseNumber;
-    private String city;
-    private String province;
-    private int rating;
-    private boolean recommendedByFriend;
+    private String login = null;
+    private String firstName = null;
+    private String middleName = null;
+    private String lastName = null;
+    private String gender = null;
+    private Date license_year = null;
+    private String specialisation = null;
+    private int streetNumber = 0;
+    private String streetName = null;
+    private String postalCode = null;
+    private String houseNumber = null;
+    private String city = null;
+    private String province = null;
+    private int rating = -1;
+    private boolean recommendedByFriend = false;
 
     /**
      * @return the login
