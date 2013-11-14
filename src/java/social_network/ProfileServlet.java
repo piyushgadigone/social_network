@@ -6,10 +6,7 @@ package social_network;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Satyam
  */
-@WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
-public class AdminServlet extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/ProfileServlet"})
+public class ProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -34,11 +31,16 @@ public class AdminServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String strQueryParam = request.getParameter("page");
         int intQueryParam = Integer.parseInt(strQueryParam);
+        String patientLogin = request.getParameter("patient");
+        String doctorLogin = request.getParameter("doctor");
+        // two input parameters
+        // current session user
+        // login of the user whose profile they want to see
         try {
             String url = "/index.jsp";
             boolean validLogin;
@@ -49,35 +51,33 @@ public class AdminServlet extends HttpServlet {
             }
             try {
                 if(validLogin) {
-                    if (intQueryParam == 1) {
-                        ArrayList<Patient> listOfPatients = PatientDBAO.getAllPatients();
-                        request.setAttribute("listOfPatients", listOfPatients);     
-                        ArrayList<Doctor> listOfDoctors = DoctorDBAO.getAllDoctors();
-                        request.setAttribute("listOfDoctors", listOfDoctors);
-                        url = "/users_list.jsp";
-                     } else if(intQueryParam == 2) {  
-                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviews();
+                    if (intQueryParam == 1) { // Patient Info
+                        ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
+                        request.setAttribute("listOfReviews", listOfReviews);     
+                        ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
+                        request.setAttribute("listOfFriends", listOfFriends);
+                        url = "/patient_view_for_admin.jsp";
+                     } else if(intQueryParam == 2) {  // Doctor Info
+                         Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
+                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
                          request.setAttribute("listOfReviews", listOfReviews); 
-                         url = "/monitor_reviews.jsp";
-                     }
+                         request.setAttribute("doctor", fullDoctorProfile);
+                         url = "/doctor_view_for_admin.jsp";
+                     }   
                 }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
-                url = "/error.jsp";
+                url = "/error.jsp"; // TODO: beautify exception page
             }
             getServletContext().getRequestDispatcher(url).forward(request, response);
-            //Admin curAdmin = AdminDBAO.getAdminInfo(request.getSession().getAttribute("login").toString());
-            //request.setAttribute("admin", curAdmin);
-            
-            //getServletContext().getRequestDispatcher("/admin_home.jsp").forward(request, response);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AdminServlet</title>");            
+            out.println("<title>Servlet ProfileServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {            
@@ -98,13 +98,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -119,13 +113,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

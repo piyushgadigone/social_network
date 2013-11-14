@@ -38,9 +38,23 @@ public class DoctorServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = null;            
         try {
+            String login = null;
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+                login = request.getSession().getAttribute("login").toString();
+            }
+            
             try {
-                Doctor doctor = DoctorDBAO.getDoctorInfo(request.getSession().getAttribute("login").toString());
-                request.setAttribute("doctor", doctor);
+                if(validLogin) { 
+                    Doctor doctor = DoctorDBAO.getDoctorInfo(login);
+                    request.setAttribute("doctor", doctor);
+                }
+                else {
+                    url = "/index.jsp";
+                }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
@@ -48,9 +62,6 @@ public class DoctorServlet extends HttpServlet {
             if(request.getParameter("page").equals("profile")){
                 url = "/doctor_profile.jsp";
             } 
-            else if (request.getParameter("page").equals("reviews")) {
-                url = "/doctor_reviews.jsp";
-            }
             
             getServletContext().getRequestDispatcher(url).forward(request, response);
             /* TODO output your page here. You may use following sample code. */

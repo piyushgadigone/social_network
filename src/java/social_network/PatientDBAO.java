@@ -72,6 +72,43 @@ public class PatientDBAO {
             }    
        }
    }
+   
+   public static ArrayList<Patient> getAllFriends (String login) 
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       PreparedStatement pStmt = null;
+       try {
+           con = getConnection();
+           
+           pStmt = con.prepareStatement("SELECT * FROM Friend WHERE patient_login=?");
+           pStmt.setString(1, login);
+           ResultSet resultSet;
+           resultSet = pStmt.executeQuery();
+           ArrayList<Patient> friends = new ArrayList<Patient>();
+           while (resultSet.next()) {
+               PreparedStatement prepSt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
+               prepSt.setString(1, resultSet.getString("friend_login"));
+               ResultSet resSet = prepSt.executeQuery();
+               while (resSet.next()) {
+                   Patient p = new Patient();
+                   p.setLogin(login);
+                   p.setFirstName(resSet.getString("first_name"));
+                   p.setLastName(resSet.getString("last_name"));
+                   p.setMiddleName(resSet.getString("middle_name"));
+                   p.setEmailAddress(resSet.getString("email_address"));
+                   friends.add(p);
+               }
+           }
+           return friends;
+       }finally {       
+           if( pStmt != null) {
+               pStmt.close();
+           }
+           if(con != null) {
+               con.close();
+           }
+       }
+   }
   
    public static Patient getPatientInfo (String login) 
            throws ClassNotFoundException, SQLException {

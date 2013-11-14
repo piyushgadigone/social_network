@@ -45,7 +45,7 @@
         
       <a href='AdminServlet?page=1'>User Search</a> </br>
       <a href='AdminServlet?page=2'>Monitor Reviews</a> </br>
-      <a href='AdminServlet?page=3'>Logout</a> </br>
+      <a href='LogoutServlet'>Logout</a> </br>
       <!--<div id="logout" style="display: none;">Logout</div>-->
     
   </body>
