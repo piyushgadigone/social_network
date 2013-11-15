@@ -167,7 +167,7 @@ public class SearchDBAO {
                 if(ds.getGender()!= null)
                     query += "gender LIKE '%"+ds.getGender()+"%' AND ";
                 if(ds.getLicense_year()!= null)
-                    query += "license_year > '"+ds.getLicense_year()+"' AND ";
+                    query += "license_year < '"+ds.getLicense_year()+"' AND ";
                 if(ds.getSpecialisation()!= null)
                     query += "area_of_specialisation LIKE '%"+ds.getSpecialisation()+"%' AND ";
                 if(ds.getStreetNumber()!= 0)
