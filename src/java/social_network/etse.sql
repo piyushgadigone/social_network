@@ -1,2 +1,1 @@
-SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login=Specialisation.login
-Left JOIN Address ON Address.login=Doctor.login WHERE first_name LIKE "%Bob%";
+ SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login = Specialisation.login LEFT JOIN Address ON Doctor.login = Address.login WHERE gender LIKE '%m%' AND license_year >= '2003-11-15' AND 1=1

@@ -52,7 +52,7 @@ public class SearchServlet extends HttpServlet {
                 docSearch.setGender(gender);
             }
         }
-        /*
+        
         if(request.getParameter("numyears") != null) {
             Calendar now = Calendar.getInstance();
             java.util.Date curTime = now.getTime();
@@ -66,7 +66,7 @@ public class SearchServlet extends HttpServlet {
                 docSearch.setLicense_year(licenseYear);
             }
         }
-        
+        /*
         if(request.getParameter("specialisation") != null) {
             docSearch.setSpecialisation(request.getParameter("specialisation"));
         }
