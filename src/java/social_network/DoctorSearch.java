@@ -26,6 +26,7 @@ public class DoctorSearch {
     private String province = null;
     private int rating = -1;
     private boolean recommendedByFriend = false;
+    private String patientLogin = null; //Set if recommendedByFriend is set to true
 
 
     /**
@@ -236,5 +237,19 @@ public class DoctorSearch {
      */
     public void setRecommendedByFriend(boolean recommendedByFriend) {
         this.recommendedByFriend = recommendedByFriend;
+    }
+
+    /**
+     * @return the patientLogin
+     */
+    public String getPatientLogin() {
+        return patientLogin;
+    }
+
+    /**
+     * @param patientLogin the patientLogin to set
+     */
+    public void setPatientLogin(String patientLogin) {
+        this.patientLogin = patientLogin;
     }
 }

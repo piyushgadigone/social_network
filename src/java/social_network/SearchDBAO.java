@@ -10,6 +10,7 @@ package social_network;
  */
 import java.sql.*;
 import java.util.ArrayList;
+import static social_network.DoctorDBAO.getConnection;
 import static social_network.SearchDBAO.getConnection;
 import static social_network.SearchDBAO.pwd;
 import static social_network.SearchDBAO.url;
@@ -89,12 +90,58 @@ public class SearchDBAO {
         return con;
     }
     
-   public static ArrayList<String> getDoctorsWithAvgRating(int avg_rating) {
-       return null;
+   public static ArrayList<String> getDoctorsRecommendedByFriends(String login) 
+        throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       Statement stmt = null;
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           ArrayList<String> doctorList = new ArrayList<String>();
+           PreparedStatement pStmt = con.prepareStatement("SELECT * recommended_doctors WHERE patient_login=?");
+           pStmt.setString(1, login);
+
+           ResultSet resultSet = pStmt.executeQuery();
+           while(resultSet.next()) {
+               doctorList.add(resultSet.getString("doctor_login"));
+           }
+           return doctorList;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
    }
    
-   public static ArrayList<String> getDoctorsRecommendedByFriends(String login) {
-       return null;
+   public static ArrayList<String> getDoctorsWithAvgRating(int avg_rating) 
+                        throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       Statement stmt = null;
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           ArrayList<String> doctorList = new ArrayList<String>();
+           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login, AVG(Rating) FROM Reviews " +
+            "GROUP BY doctor_login "+
+            "HAVING AVG(rating) >= ?");
+           pStmt.setInt(1, avg_rating);
+
+           ResultSet resultSet = pStmt.executeQuery();
+           while(resultSet.next()) {
+               doctorList.add(resultSet.getString("doctor_login"));
+           }
+           return doctorList;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
    }
 
    public static ArrayList<Doctor> getSearchDoctors(DoctorSearch ds) 
@@ -120,12 +167,12 @@ public class SearchDBAO {
                 if(ds.getGender()!= null)
                     query += "gender LIKE '%"+ds.getGender()+"%' AND ";
                 if(ds.getLicense_year()!= null)
-                    query += "license_year > '%"+ds.getLicense_year()+"%' AND ";
+                    query += "license_year > '"+ds.getLicense_year()+"' AND ";
                 if(ds.getSpecialisation()!= null)
                     query += "area_of_specialisation LIKE '%"+ds.getSpecialisation()+"%' AND ";
                 if(ds.getStreetNumber()!= 0)
                     query += "street_number LIKE "+ds.getStreetNumber()+" AND ";
-                if(ds.getHouseNumber()!= null)
+                if(ds.getStreetName()!= null)
                     query += "street_name LIKE '%"+ds.getStreetName()+"%' AND ";
                 if(ds.getPostalCode()!= null)
                     query += "postal_code LIKE '%"+ds.getPostalCode()+"%' AND ";
@@ -143,15 +190,31 @@ public class SearchDBAO {
                doctorLoginList.add(resultSet.getString("login"));
            }
            
-           /*ArrayList<String> tmpList = null;
+           ArrayList<String> tmpList = null;
            if(ds.getRating()>=0) {
              tmpList = getDoctorsWithAvgRating(ds.getRating());  
-             for(String a : doctorLoginList) {
-                 for(String b : tmpList) {
-                     if
+             for(int i = 0; i < doctorLoginList.size();) {
+                 if(!exists(tmpList,doctorLoginList.get(i))) {
+                     doctorLoginList.remove(i);
+                 }
+                 else {
+                     i++;
                  }
              }
-           }*/
+           }
+           
+           tmpList = null;
+           if(ds.isRecommendedByFriend()) {
+             tmpList = getDoctorsRecommendedByFriends(ds.getPatientLogin());  
+             for(int i = 0; i < doctorLoginList.size();) {
+                 if(!exists(tmpList,doctorLoginList.get(i))) {
+                     doctorLoginList.remove(i);
+                 }
+                 else {
+                     i++;
+                 }
+             }
+           }
            
            ArrayList<Doctor> doctorList = new ArrayList<Doctor>();
            for(String s : doctorLoginList) {
@@ -166,5 +229,12 @@ public class SearchDBAO {
                 con.close();
             }    
        }
+   }
+   
+   public static boolean exists(ArrayList<String> list, String str) {
+       for(String a : list) {
+           if(str.equals(a)) return true;
+       }
+       return false;
    }
 }
