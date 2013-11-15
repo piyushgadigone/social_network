@@ -118,7 +118,7 @@ public class SearchDBAO {
                 if(ds.getLastName() != null)
                     query += "last_name LIKE '%"+ds.getLastName()+"%' AND ";
                 if(ds.getGender()!= null)
-                    query += "last_name LIKE '%"+ds.getGender()+"%' AND ";
+                    query += "gender LIKE '%"+ds.getGender()+"%' AND ";
                 if(ds.getLicense_year()!= null)
                     query += "license_year > '%"+ds.getLicense_year()+"%' AND ";
                 if(ds.getSpecialisation()!= null)

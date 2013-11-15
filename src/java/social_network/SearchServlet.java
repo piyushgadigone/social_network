@@ -44,20 +44,15 @@ public class SearchServlet extends HttpServlet {
             String lastName = (String)request.getParameter("lastname");
             if(!lastName.isEmpty())
             docSearch.setLastName(lastName);
-        }
-        
-
-        if(request.getParameter("lastname") != null ) {
-            String lastName = (String)request.getParameter("lastname");
-            if(!lastName.isEmpty())
-            docSearch.setLastName(lastName);
-        }
-        
+        }      
+       
         if(request.getParameter("gender") != null) {
             String gender = (String)request.getParameter("gender");
-            if(!gender.isEmpty())
-            docSearch.setGender(request.getParameter("gender"));
+            if(!gender.isEmpty()) {
+                docSearch.setGender(gender);
+            }
         }
+        /*
         if(request.getParameter("numyears") != null) {
             Calendar now = Calendar.getInstance();
             java.util.Date curTime = now.getTime();
@@ -71,6 +66,7 @@ public class SearchServlet extends HttpServlet {
                 docSearch.setLicense_year(licenseYear);
             }
         }
+        
         if(request.getParameter("specialisation") != null) {
             docSearch.setSpecialisation(request.getParameter("specialisation"));
         }
@@ -92,7 +88,7 @@ public class SearchServlet extends HttpServlet {
         if(request.getParameter("province") != null) {
             docSearch.setProvince(request.getParameter("province"));
         }
-        
+        */
         return docSearch;
     }
     /**

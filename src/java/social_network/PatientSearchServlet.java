@@ -61,11 +61,11 @@ public class PatientSearchServlet extends HttpServlet {
             url = "/patient_search_results.jsp";
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DoctorSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
         }finally {            
