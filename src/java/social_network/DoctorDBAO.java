@@ -72,6 +72,32 @@ public class DoctorDBAO {
             }    
        }
    }
+   
+    public static ArrayList<String> getDistinctSpecializations () 
+           throws ClassNotFoundException, SQLException {
+       ArrayList<String> specialisations = null;
+       Connection con = null;
+       Statement stmt = null;
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           PreparedStatement pStmt = con.prepareStatement(
+                   "SELECT DISTINCT area_of_specialisation FROM Specialisation");
+           ResultSet resultSet = pStmt.executeQuery();
+           specialisations = new ArrayList<String>();
+           while (resultSet.next()) {
+                specialisations.add(resultSet.getString("area_of_specialisation"));
+           } 
+           return specialisations;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
+    }
 
    public static Doctor getDoctorInfoForPatient (String login) 
            throws ClassNotFoundException, SQLException {
