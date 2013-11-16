@@ -46,6 +46,7 @@
       <a href='AdminServlet?page=1'>All users</a> </br>
       <a href='AdminServlet?page=2'>All Reviews</a> </br>
       <a href='AdminServlet?page=3'>Review Search</a> </br>
+      <a href='AdminServlet?page=4'>Create User</a> </br>
       <a href='LogoutServlet'>Logout</a> </br>
       <!--<div id="logout" style="display: none;">Logout</div>-->
     

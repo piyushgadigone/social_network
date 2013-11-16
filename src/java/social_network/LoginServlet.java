@@ -56,7 +56,8 @@ public class LoginServlet extends HttpServlet {
             authentication.setPassword(password);
             
             try {
-                boolean correctCredentials = AuthenticationDBAO.isValidLogin(authentication);
+                boolean correctCredentials = AuthenticationDBAO.authenticate(authentication.getLogin(), authentication.getHashedPassword());
+                //boolean correctCredentials = AuthenticationDBAO.isValidLogin(authentication);
                 if(validLogin || correctCredentials) {
                     if (PatientDBAO.isPatient(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());

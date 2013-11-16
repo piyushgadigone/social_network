@@ -18,8 +18,8 @@ import static social_network.SearchDBAO.user;
 
 public class SearchDBAO {
     public static final String url = "jdbc:mysql://eceweb.uwaterloo.ca:3306/";
-    public static final String user = "user_s52gupta";
-    public static final String pwd = "user_s52gupta";
+    public static final String user = "user_pgadigon";
+    public static final String pwd = "user_pgadigon";
 
    public static ArrayList<Patient> getSearchPatients(PatientSearch ps) 
            throws ClassNotFoundException, SQLException {
@@ -81,7 +81,7 @@ public class SearchDBAO {
         try {
             con.createStatement();
             stmt = con.createStatement();
-            stmt.execute("USE ece356db_s52gupta;");
+            stmt.execute("USE ece356db_pgadigon;");
         } finally {
             if (stmt != null) {
                 stmt.close();

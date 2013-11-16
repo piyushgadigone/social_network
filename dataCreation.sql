@@ -1,4 +1,4 @@
-use ece356db_s52gupta;
+use ece356db_pgadigon;
 
 --INSERT INTO Authentication VALUES ("test", "test");
 
