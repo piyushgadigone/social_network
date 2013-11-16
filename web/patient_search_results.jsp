@@ -57,7 +57,7 @@
       </div>
       
       <div style="height: 800px;">
-      <h3>Friend Search</h3>
+      <h3>Search Results</h3>
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
          for (social_network.Patient result : results) {             

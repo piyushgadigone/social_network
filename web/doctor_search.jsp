@@ -99,6 +99,7 @@
                 <div class="form-group" style="padding-right: 30px">
                     <label for="stars">Area of specialization</label>
                     <select name="specialisation" id="specialisation" class="selectpicker">
+                        <option value=""></option>
                       <%
                             for(String special : specialisations ){
                                 out.println("<option value=\""+special+"\">"+special+"</option>");
