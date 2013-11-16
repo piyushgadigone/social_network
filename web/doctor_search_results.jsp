@@ -53,7 +53,7 @@
       <%
          ArrayList<Doctor> doctorList = (ArrayList<Doctor>) request.getAttribute("listOfDoctors");
          if (doctorList.size() == 0) {
-             out.print("<i>Your query didn't match our databas.</i>");
+             out.print("<i>Your query didn't match our database.</i>");
          }
          for (social_network.Doctor result : doctorList) {
        %> 
@@ -76,6 +76,7 @@
             %>
             </i><br>
             <span>Gender: <i><%= result.getGender() %></i> </span><br>
+            <span>Average Rating: <i><%= result.getAvgRating()%></i> </span><br>
       <%
            out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
            out.print("<a style=\"padding-left:15px\" href=\"create_review.jsp?docLogin=" + result.getLogin() + "\">Review Doctor</a>");

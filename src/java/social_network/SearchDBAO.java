@@ -124,9 +124,8 @@ public class SearchDBAO {
            con = getConnection();
            stmt = con.createStatement();
            ArrayList<String> doctorList = new ArrayList<String>();
-           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login, AVG(Rating) FROM Reviews " +
-            "GROUP BY doctor_login "+
-            "HAVING AVG(rating) >= ?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login, avg_rating FROM doctor_rating " +
+            "HAVING avg_rating >= ?");
            pStmt.setInt(1, avg_rating);
 
            ResultSet resultSet = pStmt.executeQuery();

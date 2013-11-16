@@ -22,6 +22,7 @@ public class Doctor {
     private ArrayList<String> specialisations;
     private ArrayList<Address> addresses;
     private ArrayList<Review> reviews;
+    private double avgRating;
 
     /**
      * @return the login
@@ -161,6 +162,20 @@ public class Doctor {
      */
     public void setReviews(ArrayList<Review> review) {
         this.reviews = review;
+    }
+
+    /**
+     * @return the avgRating
+     */
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    /**
+     * @param avgRating the avgRating to set
+     */
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
   
 }

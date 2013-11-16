@@ -59,7 +59,7 @@ public class ReviewDBAO {
         ResultSet resultSet = null;
         try {
             con = getConnection();
-            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=?");
+            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=? ORDER BY datetime DESC;");
             pStmt.setString(1, login);
             resultSet = pStmt.executeQuery();
             while(resultSet.next()) {

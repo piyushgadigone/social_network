@@ -132,6 +132,34 @@ public class SearchServlet extends HttpServlet {
         
         return docSearch;
     }
+    
+    private void addAvgRating(ArrayList<Doctor> doctorList) {
+        double avg_rating;
+        for(int i = 0; i < doctorList.size(); i++) {
+            avg_rating = 0;
+            for(Review r : doctorList.get(i).getReviews()) {
+                avg_rating += r.getRating();
+            }
+            avg_rating = avg_rating/doctorList.get(i).getReviews().size();
+            doctorList.get(i).setAvgRating(avg_rating);
+        }
+    }
+    
+    // Sort based on avgRatings, then review date
+    private void sort(ArrayList<Doctor> doctorList) {
+        // Sort based on avgRatings
+        Doctor doctor;
+        int j;
+        int i;
+        for(j = 1; j < doctorList.size(); j++) {
+            doctor = doctorList.get(j);
+            for(i = j-1; i >= 0 && (doctorList.get(i).getAvgRating() < doctor.getAvgRating()); i--) {
+                doctorList.set(i+1, doctorList.get(i));
+            }
+            doctorList.set(i+1,doctor);
+        }
+    }
+    
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -158,7 +186,9 @@ public class SearchServlet extends HttpServlet {
                 DoctorSearch ds = createDoctorSearchObject(request);
 
                 ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
-
+                addAvgRating(listOfDoctors);
+                sort(listOfDoctors);
+            
                 request.setAttribute("listOfDoctors", listOfDoctors);
                 url = "/doctor_search_results.jsp";
             }
