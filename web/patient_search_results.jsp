@@ -60,11 +60,14 @@
       <h3>Friend Search</h3>
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
-         for (social_network.Patient result : results) {
+         for (social_network.Patient result : results) {             
+            String friendLogin = result.getLogin();
        %>
             <h4><%= result.getFirstName() + "  " + result.getLastName()%></h4>
             <p><i><%= result.getEmailAddress() %></i></p>
       <%
+             
+            out.print("<a href=\"AddFriendServlet?friendLogin=" +  friendLogin + "\">Add Friend</a>");
          }
       %> 
 

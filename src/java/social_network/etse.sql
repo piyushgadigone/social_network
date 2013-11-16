@@ -1,1 +1,1 @@
- SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login = Specialisation.login LEFT JOIN Address ON Doctor.login = Address.login WHERE gender LIKE '%m%' AND license_year >= '2003-11-15' AND 1=1
+SELECT * FROM Friend;

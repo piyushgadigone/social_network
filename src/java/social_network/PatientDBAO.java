@@ -73,6 +73,32 @@ public class PatientDBAO {
        }
    }
    
+   public static boolean addFriend (String patientLogin, String friendLogin)
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       PreparedStatement pStmt = null;
+       try {
+           con = getConnection();
+           
+           pStmt = con.prepareStatement("INSERT INTO Friend (patient_login, friend_login) VALUES (?, ?)");
+           pStmt.setString(1, patientLogin);
+           pStmt.setString(2, friendLogin);
+           pStmt.executeUpdate();
+           return true;   
+           
+       }catch(SQLException e) {
+           System.out.println(e.getMessage());
+           return false;
+       }finally {
+           if(pStmt != null) {
+               pStmt.close();
+           }
+           if(con != null) {
+               con.close();
+           }
+       }
+   }
+   
    public static ArrayList<Patient> getAllFriends (String login) 
            throws ClassNotFoundException, SQLException {
        Connection con = null;
