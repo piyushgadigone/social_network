@@ -61,7 +61,7 @@
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
          if (results.size() == 0) {
-             out.print("<i>Your query didn't match our databas.</i>");
+             out.print("<i>Your query didn't match our database.</i>");
          }
          for (social_network.Patient result : results) {             
             String friendLogin = result.getLogin();
@@ -69,7 +69,7 @@
             <h4><%= result.getFirstName() + "  " + result.getLastName()%></h4>
             <p><i><%= result.getEmailAddress() %></i></p>
       <%
-        if(result.isIsFriend())      
+        if(!result.isIsFriend())
             out.print("<a href=\"AddFriendServlet?friendLogin=" +  friendLogin + "\">Add Friend</a>");
          }
       %> 

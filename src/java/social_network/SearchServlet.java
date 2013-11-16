@@ -29,6 +29,12 @@ public class SearchServlet extends HttpServlet {
     private DoctorSearch createDoctorSearchObject(HttpServletRequest request) {
         
         DoctorSearch docSearch = new DoctorSearch();
+        
+        if(request.getParameter("login") != null) {
+            String login = (String)request.getParameter("login");
+            if(!login.isEmpty())
+                docSearch.setLogin(login);
+        }
         if(request.getParameter("firstname") != null) {
             String firstName = (String)request.getParameter("firstname");
             if(!firstName.isEmpty())
@@ -72,11 +78,12 @@ public class SearchServlet extends HttpServlet {
                 docSearch.setLicense_year(licenseYear);
             }
         }
-        /*
+        
         if(request.getParameter("specialisation") != null) {
-            String specialisation = (String)request.getParameter("")
-            docSearch.setSpecialisation(request.getParameter("specialisation"));
-        }*/
+            String specialisation = (String)request.getParameter("specialisation");
+            if(!specialisation.isEmpty())
+                docSearch.setSpecialisation(request.getParameter("specialisation"));
+        }
         
         /*if(request.getParameter("streetNumber") != null) {
             String streetNumber = (String)request.getParameter("streetNumber");

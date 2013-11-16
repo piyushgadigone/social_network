@@ -98,27 +98,7 @@ public class PatientDBAO {
            }
        }
    }
-   /*
-   public static ArrayList<Patient> getFriendSearchResults(String login)
-           throws ClassNotFoundException, SQLException {
-       Connection con = null;
-       PreparedStatement pStmt = null;
-       try {
-           con = getConnection();
-           
-           pStmt = con.prepareStatement("SELECT * FROM Patient WHERE patient_login=? LEFT JOIN ");
-           pStmt.
-           
-           
-       }finally {
-           if(pStmt != null) {
-               pStmt.close();
-           }
-           if(con != null) {
-               con.close();
-           }
-       }
-   }*/
+
    
    public static ArrayList<Patient> getAllFriends (String login) 
            throws ClassNotFoundException, SQLException {
