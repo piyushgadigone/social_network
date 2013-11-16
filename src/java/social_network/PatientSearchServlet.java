@@ -60,17 +60,17 @@ public class PatientSearchServlet extends HttpServlet {
             ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
             ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
             
-            for(Patient p : listOfPats) {
+            for(int i = 0; i < listOfPats.size(); i++) {
                 for(Patient f : listOfFriends) {
-                    if(f.getLogin().equals(p.getLogin())) {
-                        p.setIsFriend(true);
+                    if(f.getLogin().equals(listOfPats.get(i).getLogin())) {
+                        listOfPats.get(i).setIsFriend(true);
                         break;
                     }                                      
                 }                 
             }
-            for(Patient p : listOfPats) {
-                 if(p.getLogin().equals(login)) {
-                     listOfPats.remove(p);  
+            for(int i = 0; i < listOfPats.size(); i++) {
+                 if(listOfPats.get(i).getLogin().equals(login)) {
+                     listOfPats.remove(i);  
                      break;
                  }
             }
