@@ -181,11 +181,12 @@ public class PatientDBAO {
            ArrayList<Patient> friends = new ArrayList<Patient>();
            while (resultSet.next()) {
                PreparedStatement prepSt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
-               prepSt.setString(1, resultSet.getString("friend_login"));
+               String friendLogin = resultSet.getString("friend_login");
+               prepSt.setString(1, friendLogin);
                ResultSet resSet = prepSt.executeQuery();
                while (resSet.next()) {
                    Patient p = new Patient();
-                   p.setLogin(login);
+                   p.setLogin(friendLogin);
                    p.setFirstName(resSet.getString("first_name"));
                    p.setLastName(resSet.getString("last_name"));
                    p.setMiddleName(resSet.getString("middle_name"));

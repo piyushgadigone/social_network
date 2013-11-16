@@ -63,11 +63,18 @@
         <p>
             <%
               ArrayList<Patient> friendsList;
-              friendsList = patient.getFriends(); %>
+              friendsList = patient.getFriends(); 
+              if ((friendsList).size() == 0) {
+                  out.print("<i>No friends.</i>");
+              } 
+            %>
+            
             <%
                 for (Patient p : friendsList) {
             %>
-            <a href="ProfileServlet?page=1&patient=<%= p.getLogin()%>"><%= p.getFirstName() + " " + p.getLastName()%><br></a>
+                    <a href="ProfileServlet?page=1&patient=<%= p.getLogin()%>">
+                        <%= p.getFirstName() + " " + p.getLastName()%>
+                    </a><br>
             <%
                 }
             %>           

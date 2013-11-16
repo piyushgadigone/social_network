@@ -92,7 +92,9 @@
             <%
                 for (Patient p : friendsList) {
             %>
-            <%= p.getFirstName() + " " + p.getLastName()%><br>
+                    <a href="ProfileServlet?page=1&patient=<%= p.getLogin()%>">
+                        <%= p.getFirstName() + " " + p.getLastName()%>
+                    <a/><br>
             <%
                 }
             %>           
