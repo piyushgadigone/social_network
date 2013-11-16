@@ -40,12 +40,13 @@ public class PatientSearchServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = "/index.jsp";
         try {
+
             boolean validLogin;
             if (request.getSession().getAttribute("login") == null) {
                 validLogin = false;
             } else {
                 validLogin = true;
-
+            }
              String login = request.getSession().getAttribute("login").toString();
              PatientSearch patSearch = new PatientSearch();
              if(request.getParameter("login") != null) {
@@ -77,8 +78,7 @@ public class PatientSearchServlet extends HttpServlet {
                         p.setIsFriend(true);
                         break;
                     }                                      
-                }        
-            }
+                }                 
             }
         } catch (SQLException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
