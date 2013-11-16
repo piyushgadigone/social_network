@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="text" maxlength="6" class="form-control block-centered" name="email" id="postalCode" placeholder="Enter Email address">
+                    <input type="text" maxlength="6" class="form-control block-centered" name="email" id="email" placeholder="Enter Email address">
                 </div>
                 <button type="submit" class="btn btn-default ">Submit</button>
             </div>

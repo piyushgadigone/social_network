@@ -146,18 +146,23 @@ public class SearchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = null;
+        String url = "/index.jsp";;
         try {
-            
-            DoctorSearch ds = createDoctorSearchObject(request);
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+            }
+            if(validLogin) {
+                DoctorSearch ds = createDoctorSearchObject(request);
 
-            ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
+                ArrayList<Doctor> listOfDoctors = SearchDBAO.getSearchDoctors(ds);
 
-            request.setAttribute("listOfDoctors", listOfDoctors);
-            url = "/doctor_search_results.jsp";
-            
+                request.setAttribute("listOfDoctors", listOfDoctors);
+                url = "/doctor_search_results.jsp";
+            }
 
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
              /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -170,20 +175,17 @@ public class SearchServlet extends HttpServlet {
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-            
-                request.setAttribute("exception", ex);
+            request.setAttribute("exception", ex);
             url = "/error.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("exception", ex);
             url = "/error.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
-                request.getServletContext().getRequestDispatcher(url).forward(request, response);
-        }finally {
+        }finally {            
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
             out.close();
         } 
         

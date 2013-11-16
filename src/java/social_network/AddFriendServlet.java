@@ -37,20 +37,28 @@ public class AddFriendServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = null;
+        String url = "/index.jsp";
         try {
-            boolean friendAdded = false;
-            String patientLogin = request.getSession().getAttribute("login").toString();
-            String friendLogin = request.getParameter("friendLogin");
-            
-            if(PatientDBAO.addFriend(patientLogin, friendLogin));
-                friendAdded = true;
-            request.setAttribute("friendLogin", friendLogin);
-            Patient friend = PatientDBAO.getPatientInfo(friendLogin);
-            request.setAttribute("friendProfile", friend);
-            request.setAttribute("friendName", friend.getFirstName());
-            //request.setAttribute("friendAdded", friendAdded);
-            url = "/add_friend.jsp";
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+            }
+            if(validLogin) {
+                boolean friendAdded = false;
+                String patientLogin = request.getSession().getAttribute("login").toString();
+                String friendLogin = request.getParameter("friendLogin");
+
+                if(PatientDBAO.addFriend(patientLogin, friendLogin));
+                    friendAdded = true;
+                request.setAttribute("friendLogin", friendLogin);
+                Patient friend = PatientDBAO.getPatientInfo(friendLogin);
+                request.setAttribute("friendProfile", friend);
+                request.setAttribute("friendName", friend.getFirstName());
+                //request.setAttribute("friendAdded", friendAdded);
+                url = "/add_friend.jsp";
+            }
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
