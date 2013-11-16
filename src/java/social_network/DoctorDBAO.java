@@ -57,7 +57,7 @@ public class DoctorDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT login FROM Doctor WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT login FROM doctor_view WHERE login=?");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();
@@ -82,7 +82,7 @@ public class DoctorDBAO {
            con = getConnection();
            stmt = con.createStatement();
            PreparedStatement pStmt = con.prepareStatement(
-                   "SELECT DISTINCT area_of_specialisation FROM Specialisation");
+                   "SELECT DISTINCT area_of_specialisation FROM specialisation_view");
            ResultSet resultSet = pStmt.executeQuery();
            specialisations = new ArrayList<String>();
            while (resultSet.next()) {
@@ -107,7 +107,7 @@ public class DoctorDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Doctor WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM doctor_view WHERE login=?");
            pStmt.setString(1, login);
            
            ResultSet resultSet = pStmt.executeQuery();
@@ -123,7 +123,7 @@ public class DoctorDBAO {
                 doctor.setLicenceYear(resultSet.getDate("license_year"));
            }
            
-           pStmt = con.prepareStatement("SELECT * FROM Specialisation WHERE login=?");
+           pStmt = con.prepareStatement("SELECT * FROM specialisation_view WHERE login=?");
            pStmt.setString(1, login);
            
            resultSet = pStmt.executeQuery();
@@ -131,12 +131,11 @@ public class DoctorDBAO {
                 specialisations.add(resultSet.getString("area_of_specialisation"));
            }
            
-           pStmt = con.prepareStatement("SELECT * FROM Address WHERE login=?");
+           pStmt = con.prepareStatement("SELECT * FROM work_address_view WHERE login=?");
            pStmt.setString(1, login);
            
            resultSet = pStmt.executeQuery();
            while (resultSet.next()) {
-                if(resultSet.getString("type").equals("work")) {
                     Address address = new Address();
                     address.setCity(resultSet.getString("city"));
                     address.setHouseNumber(resultSet.getString("house_number"));
@@ -145,9 +144,8 @@ public class DoctorDBAO {
                     address.setStreetName(resultSet.getString("street_name"));
                     address.setStreetNumber(resultSet.getString("street_number"));
 
-                    address.setType(resultSet.getString("type"));
+                    address.setType("work");
                     addresses.add(address);
-                }
            }
                                  
            doctor.setSpecialisations(specialisations);
@@ -171,7 +169,7 @@ public class DoctorDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Doctor WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM doctor_view WHERE login=?");
            pStmt.setString(1, login);
            
            ResultSet resultSet = pStmt.executeQuery();
@@ -189,7 +187,7 @@ public class DoctorDBAO {
                 doctor.setDob(resultSet.getDate("date_of_birth"));
            }
            
-           pStmt = con.prepareStatement("SELECT * FROM Specialisation WHERE login=?");
+           pStmt = con.prepareStatement("SELECT * FROM specialisation_view WHERE login=?");
            pStmt.setString(1, login);
            
            resultSet = pStmt.executeQuery();
@@ -197,7 +195,7 @@ public class DoctorDBAO {
                 specialisations.add(resultSet.getString("area_of_specialisation"));
            }
            
-           pStmt = con.prepareStatement("SELECT * FROM Address WHERE login=?");
+           pStmt = con.prepareStatement("SELECT * FROM address_view WHERE login=?");
            pStmt.setString(1, login);
            
            resultSet = pStmt.executeQuery();
@@ -209,11 +207,12 @@ public class DoctorDBAO {
                 address.setProvince(resultSet.getString("province"));
                 address.setStreetName(resultSet.getString("street_name"));
                 address.setStreetNumber(resultSet.getString("street_number"));
+                
                 address.setType(resultSet.getString("type"));
                 addresses.add(address);
            }
            
-           pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=? ORDER BY datetime DESC;");
+           pStmt = con.prepareStatement("SELECT * FROM review_view WHERE doctor_login=? ORDER BY datetime DESC;");
            pStmt.setString(1, login);
            
            resultSet = pStmt.executeQuery();
@@ -247,7 +246,7 @@ public class DoctorDBAO {
        PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           pStmt = con.prepareStatement("SELECT * FROM Doctor");
+           pStmt = con.prepareStatement("SELECT * FROM doctor_view");
            ResultSet resultSet = pStmt.executeQuery();
            
            while(resultSet.next()) {

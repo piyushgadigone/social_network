@@ -52,7 +52,7 @@ public class UtilDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT login FROM Patient WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT login FROM patient_view WHERE login=?");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();

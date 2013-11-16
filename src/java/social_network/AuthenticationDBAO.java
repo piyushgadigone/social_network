@@ -67,7 +67,7 @@ public class AuthenticationDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Authentication WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM authentication_view WHERE login=?");
            pStmt.setString(1, authentication.getLogin());
 
            ResultSet resultSet = pStmt.executeQuery();
@@ -173,7 +173,7 @@ public class AuthenticationDBAO {
                password="";
            }
  
-           ps = con.prepareStatement("SELECT password, salt FROM Authentication WHERE login = ?");
+           ps = con.prepareStatement("SELECT password, salt FROM authentication_view WHERE login = ?");
            ps.setString(1, login);
            rs = ps.executeQuery();
            String digest, salt;

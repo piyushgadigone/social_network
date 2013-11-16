@@ -29,7 +29,7 @@ public class SearchDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           query = "SELECT distinct login FROM Patient WHERE ";
+           query = "SELECT distinct login FROM patient_view WHERE ";
            
            if(ps != null) {
                 if(ps.getLogin()!= null)
@@ -151,8 +151,8 @@ public class SearchDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           query = "SELECT distinct Doctor.login FROM Doctor LEFT JOIN Specialisation ON Doctor.login = Specialisation.login"
-                   + " LEFT JOIN Address ON Doctor.login = Address.login WHERE ";
+           query = "SELECT distinct doctor_view.login FROM doctor_view LEFT JOIN specialisation_view ON doctor_view.login = specialisation_view.login"
+                   + " LEFT JOIN work_address_view ON doctor_view.login = work_address_view.login WHERE ";
            
            if(ds!=null) {
                 if(ds.getLogin()!= null)
@@ -238,7 +238,7 @@ public class SearchDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           query = "SELECT * FROM Reviews WHERE ";
+           query = "SELECT * FROM review_view WHERE ";
            
            if(rs!=null) {
                 if(rs.getComments() != null) {

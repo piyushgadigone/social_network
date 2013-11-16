@@ -57,7 +57,7 @@ public class PatientDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM patient_view WHERE login=?");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();
@@ -107,13 +107,13 @@ public class PatientDBAO {
        try {
            con = getConnection();
            
-           pStmt = con.prepareStatement("SELECT * FROM Friend WHERE patient_login=?");
+           pStmt = con.prepareStatement("SELECT * FROM friends_view WHERE patient_login=?");
            pStmt.setString(1, login);
            ResultSet resultSet;
            resultSet = pStmt.executeQuery();
            ArrayList<Patient> friends = new ArrayList<Patient>();
            while (resultSet.next()) {
-               PreparedStatement prepSt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
+               PreparedStatement prepSt = con.prepareStatement("SELECT * FROM patient_view WHERE login=?");
                prepSt.setString(1, resultSet.getString("friend_login"));
                ResultSet resSet = prepSt.executeQuery();
                while (resSet.next()) {
@@ -145,7 +145,7 @@ public class PatientDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM patient_view WHERE login=?");
            pStmt.setString(1, login);
            
            // add all fields
@@ -159,7 +159,7 @@ public class PatientDBAO {
            }
            
            // add all reviews made by this patient
-           pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE patient_login=?");
+           pStmt = con.prepareStatement("SELECT * FROM review_view WHERE patient_login=?");
            pStmt.setString(1, login);
            resultSet = pStmt.executeQuery();
            ArrayList<Review> reviews = new ArrayList<Review>();
@@ -175,12 +175,12 @@ public class PatientDBAO {
            patient.setReviewsMade(reviews);
            
            // add friends of this patient
-           pStmt = con.prepareStatement("SELECT * FROM Friend WHERE patient_login=?");
+           pStmt = con.prepareStatement("SELECT * FROM friends_view WHERE patient_login=?");
            pStmt.setString(1, login);
            resultSet = pStmt.executeQuery();
            ArrayList<Patient> friends = new ArrayList<Patient>();
            while (resultSet.next()) {
-               PreparedStatement prepSt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
+               PreparedStatement prepSt = con.prepareStatement("SELECT * FROM patient_view WHERE login=?");
                String friendLogin = resultSet.getString("friend_login");
                prepSt.setString(1, friendLogin);
                ResultSet resSet = prepSt.executeQuery();
@@ -212,7 +212,7 @@ public class PatientDBAO {
        PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           pStmt = con.prepareStatement("SELECT * FROM Patient");
+           pStmt = con.prepareStatement("SELECT * FROM patient_view");
            ResultSet resultSet = pStmt.executeQuery();
            
            while(resultSet.next()) {

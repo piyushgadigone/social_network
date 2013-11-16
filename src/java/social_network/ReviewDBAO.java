@@ -59,7 +59,7 @@ public class ReviewDBAO {
         ResultSet resultSet = null;
         try {
             con = getConnection();
-            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE doctor_login=? ORDER BY datetime DESC;");
+            pStmt = con.prepareStatement("SELECT * FROM review_view WHERE doctor_login=? ORDER BY datetime DESC;");
             pStmt.setString(1, login);
             resultSet = pStmt.executeQuery();
             while(resultSet.next()) {
@@ -89,7 +89,7 @@ public class ReviewDBAO {
         ResultSet resultSet = null;
         try {
             con = getConnection();
-            pStmt = con.prepareStatement("SELECT * FROM Reviews WHERE patient_login=?");
+            pStmt = con.prepareStatement("SELECT * FROM review_view WHERE patient_login=?");
             pStmt.setString(1, login);
             resultSet = pStmt.executeQuery();
             while(resultSet.next()) {
@@ -118,7 +118,7 @@ public class ReviewDBAO {
        PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           pStmt = con.prepareStatement("SELECT * FROM Reviews");
+           pStmt = con.prepareStatement("SELECT * FROM review_view");
            ResultSet resultSet = pStmt.executeQuery();
            
            while(resultSet.next()) {

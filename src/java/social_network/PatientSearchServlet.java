@@ -47,27 +47,33 @@ public class PatientSearchServlet extends HttpServlet {
             } else {
                 validLogin = true;
             }
+            if(validLogin) {
              String login = request.getSession().getAttribute("login").toString();
              PatientSearch patSearch = new PatientSearch();
              if(request.getParameter("login") != null) {
                  String patlogin = request.getParameter("login");
-                 patSearch.setLogin(patlogin);
+                 if(!patlogin.isEmpty())
+                    patSearch.setLogin(patlogin);
              }
              if(request.getParameter("firstname") != null) {
                  String firstName = request.getParameter("firstname");
-                 patSearch.setFirstName(firstName);
+                 if(!firstName.isEmpty())
+                    patSearch.setFirstName(firstName);
              }
              if(request.getParameter("middlename") != null) {
                  String middlename = request.getParameter("middlename");
-                 patSearch.setMiddleName(middlename);
+                 if(!middlename.isEmpty())
+                    patSearch.setMiddleName(middlename);
              }
              if(request.getParameter("lastname") != null) {
                  String lastname = request.getParameter("lastname");
-                 patSearch.setLastName(lastname);
+                 if(!lastname.isEmpty())
+                    patSearch.setLastName(lastname);
              }
              if(request.getParameter("email") != null ) {
                  String email = request.getParameter("email");
-                 patSearch.setEmailAddress(email);
+                 if(!email.isEmpty())
+                    patSearch.setEmailAddress(email);
              }
             ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
             ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
@@ -80,14 +86,20 @@ public class PatientSearchServlet extends HttpServlet {
                     }                                      
                 }                 
             }
+            request.setAttribute("patientSearchResults", listOfPats);
+            url = "/patient_search_results.jsp"; 
+            
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-            url = "/error.jsp";
+            url = "/error.jsp";            
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-            url = "/error.jsp";
-        }finally {                   
+            url = "/error.jsp";            
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
+        }finally {                     
             out.close();
         }
     }
