@@ -56,7 +56,8 @@ public class LoginServlet extends HttpServlet {
             authentication.setPassword(password);
             
             try {
-                if(validLogin || AuthenticationDBAO.isValidLogin(authentication)) {
+                boolean correctCredentials = AuthenticationDBAO.isValidLogin(authentication);
+                if(validLogin || correctCredentials) {
                     if (PatientDBAO.isPatient(authentication.getLogin())) {
                         session.setAttribute("login", authentication.getLogin());
                         session.setAttribute("role", "patient");
@@ -79,6 +80,10 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("admin", curAdmin);
                         url = "/admin_home.jsp";
                     }
+                }
+                else if (correctCredentials == false){
+                    url = "/index.jsp";
+                    request.setAttribute("incorrect_credentials", "yes");
                 }
                 else {
                     url = "/index.jsp";

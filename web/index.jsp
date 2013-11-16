@@ -41,11 +41,15 @@
         <input name="login"  type="text" class="form-control" placeholder="Login" required autofocus>
         <input name="password" type="password" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <% if(request.getAttribute("incorrect_credentials")!=null && request.getAttribute("incorrect_credentials").equals("yes")) { %>
+            <%= "Invalid Username or Password." %>
+        <% }%>
       </form>
-
+        
     </div> <!-- /container -->
 
-
+    
+    
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
