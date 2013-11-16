@@ -14,6 +14,7 @@ public class PatientSearch {
     private String middleName = null;
     private String lastName = null; 
     private String emailAddress = null;
+    private boolean isFriend = false;
 
     /**
      * @return the login
@@ -83,5 +84,19 @@ public class PatientSearch {
      */
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    /**
+     * @return the isFriend
+     */
+    public Boolean getIsFriend() {
+        return isFriend;
+    }
+
+    /**
+     * @param isFriend the isFriend to set
+     */
+    public void setIsFriend(Boolean isFriend) {
+        this.isFriend = isFriend;
     }
 }

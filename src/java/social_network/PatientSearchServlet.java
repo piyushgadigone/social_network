@@ -40,6 +40,7 @@ public class PatientSearchServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url;
         try {
+             String login = request.getSession().getAttribute("login").toString();
              PatientSearch patSearch = new PatientSearch();
              if(request.getParameter("login") != null) {
                  patSearch.setLogin(request.getParameter("login"));
@@ -57,6 +58,22 @@ public class PatientSearchServlet extends HttpServlet {
                  patSearch.setEmailAddress(request.getParameter("email"));
              }
             ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
+            ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
+            String curLogin = request.getSession().getAttribute("login").toString();
+            
+            for(Patient p : listOfPats) {
+                for(Patient f : listOfFriends) {
+                    if(p.getLogin().equals(f.getLogin())) {
+                        p.setIsFriend(true);
+                    }                                      
+                }                 
+            }
+            for(Patient p : listOfPats) {
+                 if(p.getLogin().equals(curLogin)) {
+                     listOfPats.remove(p);  
+                     break;
+                 }
+            }
             request.setAttribute("patientSearchResults", listOfPats);
             url = "/patient_search_results.jsp";
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
