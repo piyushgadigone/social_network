@@ -4,6 +4,7 @@
     Author     : Yash Malik
 --%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="social_network.DoctorDBAO"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,6 +91,19 @@
                         <option value="3">4</option>
                         <option value="4">5</option>
                         <option value="5">10</option>
+                    </select>
+                </div>
+                <%
+                    ArrayList<String> specialisations = (ArrayList<String>) DoctorDBAO.getDistinctSpecializations();
+                %>
+                <div class="form-group" style="padding-right: 30px">
+                    <label for="stars">Area of specialization</label>
+                    <select name="specialisation" id="specialisation" class="selectpicker">
+                      <%
+                            for(String special : specialisations ){
+                                out.println("<option value=\""+special+"\">"+special+"</option>");
+                            }
+                      %>
                     </select>
                 </div>
 
