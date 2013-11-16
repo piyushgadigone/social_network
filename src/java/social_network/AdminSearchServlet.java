@@ -61,13 +61,13 @@ public class AdminSearchServlet extends HttpServlet {
                        revSearch.setComments(request.getParameter("comments"));
                 }
                 if(request.getParameter("min_date") != null && !request.getParameter("min_date").isEmpty()) {
-                   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                   SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                    java.util.Date parsedDate = dateFormat.parse(request.getParameter("min_date"));
                    java.sql.Date date = new java.sql.Date(parsedDate.getTime());
                    revSearch.setMinDateTime(date);
                 }
                 if(request.getParameter("max_date") != null && !request.getParameter("max_date").isEmpty()) {
-                   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                   SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                    java.util.Date parsedDate = dateFormat.parse(request.getParameter("max_date"));
                    java.sql.Date date = new java.sql.Date(parsedDate.getTime());
                    revSearch.setMaxDateTime(date);
