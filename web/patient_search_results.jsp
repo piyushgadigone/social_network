@@ -44,7 +44,7 @@
   </style>
   <body>
 
-    <div class="container">
+    <div class="container" style="min-height: 550px;">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="PatientServlet?page=home">Home</a></li>
@@ -56,7 +56,7 @@
         <h3 class="text-muted">Medicare</h3>
       </div>
       
-      <div style="height: 800px;">
+      <div>
       <h3>Search Results</h3><br>
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");

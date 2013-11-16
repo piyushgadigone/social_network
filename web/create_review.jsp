@@ -33,7 +33,7 @@
 
   <body>
 
-    <div class="container" style="height: 500px;">
+    <div class="container" style="min-height: 550px;">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="PatientServlet?page=home">Home</a></li>

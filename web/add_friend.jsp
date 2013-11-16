@@ -35,7 +35,7 @@
 
   <body>
 
-    <div class="container">
+    <div class="container" style="min-height: 550px;">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="PatientServlet?page=home">Home</a></li>
@@ -46,7 +46,7 @@
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
-      <div style="height: 450px;">
+      <div>
         <h3>New friend added!</h3>
         <span>You are now friends with <%= request.getAttribute("friendName")%>, <%= request.getAttribute("friendLogin") %>!</span>
         <br>

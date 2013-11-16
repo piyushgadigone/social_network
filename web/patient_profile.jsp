@@ -42,7 +42,7 @@
   </style>
   <body>
 
-    <div class="container">
+    <div class="container" style="min-height: 550px;">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li><a href="LoginServlet">Home</a></li>
@@ -53,7 +53,7 @@
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
-      <div style="height: 800px;">
+      <div>
       <h3>Profile</h3>
       <jsp:useBean id="patient" class="social_network.Patient" scope="request"/>
         <p> 
