@@ -47,7 +47,7 @@
         <h3 class="text-muted">Medicare</h3>
       </div>
       <% if(request.getAttribute("review_successful")!=null && request.getAttribute("review_successful").equals("yes")) { %>
-      <span style="color:red"><%= "Review successful!" %></span><br>
+      <span style="color:green"><%= "Review successful!" %></span><br>
       <% }%>
       <form method="post" action="SearchServlet" class="query-form block-centered">
             <div class="well well block-centered">
