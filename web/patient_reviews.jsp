@@ -47,6 +47,11 @@
       <h3>Reviews made my me</h3>
       <jsp:useBean id="patient" class="social_network.Patient" scope="request"/>
       <div class="row marketing">
+           <%
+            if ((patient.getReviewsMade()).size() == 0) {
+                out.print("<i>No reviews made.</i>");
+            } 
+           %>
           <div class="" style="width:80%">
             <%
                for (social_network.Review review : patient.getReviewsMade()) {
