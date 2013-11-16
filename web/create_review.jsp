@@ -47,7 +47,7 @@
         
       <form class="form-horizontal" action="ReviewServlet?type=insert" method="post">
        <%
-          String docLogin = request.getParameter("doctor"); 
+          String docLogin = request.getParameter("docLogin");
           request.getSession().setAttribute("docLogin", docLogin);     
        %>
        <fieldset>
