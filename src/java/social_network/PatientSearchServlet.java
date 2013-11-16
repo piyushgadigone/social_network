@@ -47,38 +47,42 @@ public class PatientSearchServlet extends HttpServlet {
             } else {
                 validLogin = true;
             }
-             String login = request.getSession().getAttribute("login").toString();
-             PatientSearch patSearch = new PatientSearch();
-             if(request.getParameter("login") != null) {
-                 String patlogin = request.getParameter("login");
-                 patSearch.setLogin(patlogin);
-             }
-             if(request.getParameter("firstname") != null) {
-                 String firstName = request.getParameter("firstname");
-                 patSearch.setFirstName(firstName);
-             }
-             if(request.getParameter("middlename") != null) {
-                 String middlename = request.getParameter("middlename");
-                 patSearch.setMiddleName(middlename);
-             }
-             if(request.getParameter("lastname") != null) {
-                 String lastname = request.getParameter("lastname");
-                 patSearch.setLastName(lastname);
-             }
-             if(request.getParameter("email") != null ) {
-                 String email = request.getParameter("email");
-                 patSearch.setEmailAddress(email);
-             }
-            ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
-            ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
-            
-            for(Patient p : listOfPats) {
-                for(Patient f : listOfFriends) {
-                    if(f.getLogin().equals(p.getLogin())) {
-                        p.setIsFriend(true);
-                        break;
-                    }                                      
-                }                 
+            if(validLogin) {
+                String login = request.getSession().getAttribute("login").toString();
+                PatientSearch patSearch = new PatientSearch();
+                if(request.getParameter("login") != null) {
+                    String patlogin = request.getParameter("login");
+                    patSearch.setLogin(patlogin);
+                }
+                if(request.getParameter("firstname") != null) {
+                    String firstName = request.getParameter("firstname");
+                    patSearch.setFirstName(firstName);
+                }
+                if(request.getParameter("middlename") != null) {
+                    String middlename = request.getParameter("middlename");
+                    patSearch.setMiddleName(middlename);
+                }
+                if(request.getParameter("lastname") != null) {
+                    String lastname = request.getParameter("lastname");
+                    patSearch.setLastName(lastname);
+                }
+                if(request.getParameter("email") != null ) {
+                    String email = request.getParameter("email");
+                    patSearch.setEmailAddress(email);
+                }
+               ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
+               ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
+
+               for(Patient p : listOfPats) {
+                   for(Patient f : listOfFriends) {
+                       if(f.getLogin().equals(p.getLogin())) {
+                           p.setIsFriend(true);
+                           break;
+                       }                                      
+                   }                 
+               }
+               url = "/patient_search_results.jsp";
+               request.setAttribute("patientSearchResults", listOfPats);
             }
         } catch (SQLException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
