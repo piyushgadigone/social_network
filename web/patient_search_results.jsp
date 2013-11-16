@@ -66,7 +66,7 @@
             <h4><%= result.getFirstName() + "  " + result.getLastName()%></h4>
             <p><i><%= result.getEmailAddress() %></i></p>
       <%
-             
+        if(result.isIsFriend())      
             out.print("<a href=\"AddFriendServlet?friendLogin=" +  friendLogin + "\">Add Friend</a>");
          }
       %> 

@@ -75,7 +75,8 @@
             </i><br>
             <span>Gender: <i><%= result.getGender() %></i> </span><br>
       <%
-           out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
+           out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");  
+           out.println("</br>");
            out.print("<a href=\"create_review.jsp?doctor=" + result.getLogin() + "\">Review Doctor</a>");
          }
       %>       

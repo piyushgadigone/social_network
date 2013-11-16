@@ -18,6 +18,7 @@ public class Patient {
     private String emailAddress;  
     private ArrayList<Review> reviewsMade;
     private ArrayList<Patient> friends;
+    private boolean isFriend = false;
 
     /**
      * @return the login
@@ -115,5 +116,19 @@ public class Patient {
      */
     public void setFriends(ArrayList<Patient> friends) {
         this.friends = friends;
+    }
+
+    /**
+     * @return the isFriend
+     */
+    public boolean isIsFriend() {
+        return isFriend;
+    }
+
+    /**
+     * @param isFriend the isFriend to set
+     */
+    public void setIsFriend(boolean isFriend) {
+        this.isFriend = isFriend;
     }
 }
