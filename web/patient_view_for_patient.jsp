@@ -9,53 +9,102 @@
 <%@page import="social_network.Patient"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Friend View for Patient</title>
-    </head>
-    <body>
-        <h1>Friend View for Patient</h1>
-        <%! ArrayList<Review> reviewList;%>
-    <% reviewList = (ArrayList<Review>) request.getAttribute("listOfReviews");%>
-    <%
-            if (reviewList != null) {
-                out.println("<h2>Reviews Given</h2>");
-                out.println("<table border=1>");
-                out.println("<tr><th>Doctor Reviewed</th><th>Comments</th><th>Rating</th><th>Date</th></tr>");
-                for (Review rev : reviewList) {
-                    out.println("<tr><td>");
-                    out.print(rev.getDoctorLogin());
-                    out.print("</td><td>");
-                    out.print(rev.getComments());
-                    out.print("</td><td>");
-                    out.print(rev.getRating());
-                    out.print("</td><td>");
-                    out.print(rev.getDatetime());
-                }
-                out.println("</table>");
-            } else {
-                out.println("<p>Null</p>");
-            }
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Doctor home</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="style/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="style/jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="PatientServlet?page=profile">Profile</a></li>
+          <li><a href="PatientServlet?page=reviews">Reviews</a></li>
+          <li><a href="PatientServlet?page=friends">Friends</a></li>
+          <li><a href="LogoutServlet">Logout</a></li>
+        </ul>
+        <h3 class="text-muted">Medicare</h3>
+      </div>
+
+    <jsp:useBean id="patientForPatient" class="social_network.Patient" scope="request"/>
+        <p> 
+            <span class="profilelabel">Login: </span><%= patientForPatient.getLogin()%></br>
+            <span class="profilelabel">Name: </span> 
+              <%= patientForPatient.getFirstName() + " " + patientForPatient.getMiddleName() + " " + patientForPatient.getLastName() %><br/>
+            <span class="profilelabel">Email-address: </span> <%= patientForPatient.getEmailAddress()%>
+        </p>
+    
+      <div class="row marketing">
+        <h3>Reviews</h3>
+        <%
+        if ((patientForPatient.getReviewsMade()).size() == 0) {
+            out.print("<i>This user has made no reviews.</i>");
+        } 
         %>
-        </br>
-        <%! ArrayList<Patient> friendsList;%>
-    <% friendsList = (ArrayList<Patient>) request.getAttribute("listOfFriends");%>
-    <%
-            if (friendsList != null) {
-                out.println("<h2>Friends Added</h2>");
-                out.println("<table border=1>");
-                out.println("<tr><th>Name</th><th>Email Address</th></tr>");
-                for (Patient frnd : friendsList) {
-                    out.println("<tr><td>");
-                    out.print(frnd.getFirstName() + " " + frnd.getMiddleName() + " " + frnd.getLastName());
-                    out.print("</td><td>");
-                    out.print(frnd.getEmailAddress());
+          <div class="" style="width:80%">
+            <%
+               for (social_network.Review review : patientForPatient.getReviewsMade()) {
+            %>
+                      <h4>You gave <%= review.getDoctorLogin()%>  <%= review.getRating()%> stars</h4>
+                      <p>On <i><%= review.getDatetime()%></i></p>
+                      <p><%= review.getComments()%></p>
+            <%
+               }
+            %> 
+          </div>
+          </br></br>
+      </div>
+      <div style="height: 550px;">
+      <h3>Friends</h3>
+        <p>
+            <%
+              ArrayList<Patient> friendsList;
+              friendsList = patientForPatient.getFriends(); %>
+            <%
+              if ((friendsList).size() == 0) {
+                  out.print("<i>This user has no Friends.</i>");
+              } 
+            %>
+            <%
+                for (Patient p : friendsList) {
+            %>
+            <%= p.getFirstName() + " " + p.getLastName()%><br>
+            <%
                 }
-                out.println("</table>");
-            } else {
-                out.println("<p>Null</p>");
-            }
-        %>
-    </body>
+            %>           
+        </p>
+      </div>
+
+    </div> <!-- /container -->
+    <div class="footer">
+        <p>&copy; Medicare 2013</p>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
 </html>

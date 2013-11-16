@@ -68,10 +68,8 @@ public class ProfileServlet extends HttpServlet {
                              }   
                         }else if(request.getSession().getAttribute("role").toString().equals("patient")){
                              if (intQueryParam == 1) { // Patient Info
-                                ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
-                                request.setAttribute("listOfReviews", listOfReviews);     
-                                ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
-                                request.setAttribute("listOfFriends", listOfFriends);
+                                Patient patient = PatientDBAO.getPatientInfo(patientLogin);
+                                request.setAttribute("patientForPatient", patient);
                                 url = "/patient_view_for_patient.jsp";
                              } else if(intQueryParam == 2) {  // Doctor Info
                                  Doctor partialDoctorProfile = DoctorDBAO.getDoctorInfoForPatient(doctorLogin);
@@ -79,7 +77,7 @@ public class ProfileServlet extends HttpServlet {
                                  request.setAttribute("listOfReviews", listOfReviews); 
                                  request.setAttribute("doctor", partialDoctorProfile);
                                  url = "/doctor_view_for_patient.jsp";
-                             }   
+                             }
                         }
                     }
                 }

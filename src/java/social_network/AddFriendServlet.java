@@ -45,10 +45,10 @@ public class AddFriendServlet extends HttpServlet {
             
             if(PatientDBAO.addFriend(patientLogin, friendLogin));
                 friendAdded = true;
-            request.getSession().setAttribute("friendLogin", friendLogin);
+            request.setAttribute("friendLogin", friendLogin);
             Patient friend = PatientDBAO.getPatientInfo(friendLogin);
-            request.getSession().setAttribute("friend", friend);
-            request.getSession().setAttribute("name", friend.getFirstName());
+            request.setAttribute("friendProfile", friend);
+            request.setAttribute("friendName", friend.getFirstName());
             //request.setAttribute("friendAdded", friendAdded);
             url = "/add_friend.jsp";
             /* TODO output your page here. You may use following sample code. */
