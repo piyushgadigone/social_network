@@ -38,8 +38,15 @@ public class PatientSearchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url;
+        String url = "/index.jsp";
         try {
+
+            boolean validLogin;
+            if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+            } else {
+                validLogin = true;
+            }
              String login = request.getSession().getAttribute("login").toString();
              PatientSearch patSearch = new PatientSearch();
              if(request.getParameter("login") != null) {
@@ -65,32 +72,22 @@ public class PatientSearchServlet extends HttpServlet {
             ArrayList<Patient> listOfPats = SearchDBAO.getSearchPatients(patSearch);
             ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(login);
             
-            for(int i = 0; i < listOfPats.size(); i++) {
+            for(Patient p : listOfPats) {
                 for(Patient f : listOfFriends) {
-                    if(f.getLogin().equals(listOfPats.get(i).getLogin())) {
-                        listOfPats.get(i).setIsFriend(true);
+                    if(f.getLogin().equals(p.getLogin())) {
+                        p.setIsFriend(true);
                         break;
                     }                                      
                 }                 
             }
-            for(int i = 0; i < listOfPats.size(); i++) {
-                 if(listOfPats.get(i).getLogin().equals(login)) {
-                     listOfPats.remove(i);  
-                     break;
-                 }
-            }
-            request.setAttribute("patientSearchResults", listOfPats);
-            url = "/patient_search_results.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PatientSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
+        }finally {                   
             request.getServletContext().getRequestDispatcher(url).forward(request, response);
-        }finally {            
             out.close();
         }
     }

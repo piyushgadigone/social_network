@@ -43,49 +43,55 @@ public class AdminSearchServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = "/index.jsp";
         try {
-             ReviewSearch revSearch = new ReviewSearch();
-             if(request.getParameter("doctor_login") != null && !request.getParameter("doctor_login").isEmpty()) {
-                    revSearch.setDoctorLogin(request.getParameter("doctor_login"));
+             boolean validLogin;
+             if (request.getSession().getAttribute("login") == null) {
+                validLogin = false;
+             } else {
+                validLogin = true;
              }
-             if(request.getParameter("patient_login") != null && !request.getParameter("patient_login").isEmpty()) {
-                    revSearch.setPatientLogin(request.getParameter("patient_login"));
+             if(validLogin) {
+                ReviewSearch revSearch = new ReviewSearch();
+                if(request.getParameter("doctor_login") != null && !request.getParameter("doctor_login").isEmpty()) {
+                       revSearch.setDoctorLogin(request.getParameter("doctor_login"));
+                }
+                if(request.getParameter("patient_login") != null && !request.getParameter("patient_login").isEmpty()) {
+                       revSearch.setPatientLogin(request.getParameter("patient_login"));
+                }
+                if(request.getParameter("comments") != null && !request.getParameter("comments").isEmpty()) {
+                       revSearch.setComments(request.getParameter("comments"));
+                }
+                if(request.getParameter("min_date") != null && !request.getParameter("min_date").isEmpty()) {
+                   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                   java.util.Date parsedDate = dateFormat.parse(request.getParameter("min_date"));
+                   java.sql.Date date = new java.sql.Date(parsedDate.getTime());
+                   revSearch.setMinDateTime(date);
+                }
+                if(request.getParameter("max_date") != null && !request.getParameter("max_date").isEmpty()) {
+                   SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                   java.util.Date parsedDate = dateFormat.parse(request.getParameter("max_date"));
+                   java.sql.Date date = new java.sql.Date(parsedDate.getTime());
+                   revSearch.setMaxDateTime(date);
+                }
+                if(request.getParameter("min_rating") != null && !request.getParameter("min_rating").isEmpty()) {
+                       revSearch.setMinRatings(Integer.parseInt(request.getParameter("min_rating")));
+                }
+                if(request.getParameter("max_rating") != null && !request.getParameter("max_rating").isEmpty()) {
+                       revSearch.setMaxRatings(Integer.parseInt(request.getParameter("max_rating")));
+                }
+               ArrayList<Review> listOfRevs = SearchDBAO.getSearchReviews(revSearch);
+               request.setAttribute("reviewsSearchResults", listOfRevs);
+               url = "/admin_review_search_results.jsp";
              }
-             if(request.getParameter("comments") != null && !request.getParameter("comments").isEmpty()) {
-                    revSearch.setComments(request.getParameter("comments"));
-             }
-             if(request.getParameter("min_date") != null && !request.getParameter("min_date").isEmpty()) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                java.util.Date parsedDate = dateFormat.parse(request.getParameter("min_date"));
-                java.sql.Date date = new java.sql.Date(parsedDate.getTime());
-                revSearch.setMinDateTime(date);
-             }
-             if(request.getParameter("max_date") != null && !request.getParameter("max_date").isEmpty()) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                java.util.Date parsedDate = dateFormat.parse(request.getParameter("max_date"));
-                java.sql.Date date = new java.sql.Date(parsedDate.getTime());
-                revSearch.setMaxDateTime(date);
-             }
-             if(request.getParameter("min_rating") != null && !request.getParameter("min_rating").isEmpty()) {
-                    revSearch.setMinRatings(Integer.parseInt(request.getParameter("min_rating")));
-             }
-             if(request.getParameter("max_rating") != null && !request.getParameter("max_rating").isEmpty()) {
-                    revSearch.setMaxRatings(Integer.parseInt(request.getParameter("max_rating")));
-             }
-            ArrayList<Review> listOfRevs = SearchDBAO.getSearchReviews(revSearch);
-            request.setAttribute("reviewsSearchResults", listOfRevs);
-            url = "/admin_review_search_results.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             url = "/error.jsp";
-            request.getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(AdminSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {            
+        }finally {                  
+            request.getServletContext().getRequestDispatcher(url).forward(request, response);
             out.close();
         }
     }
