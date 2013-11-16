@@ -36,7 +36,7 @@
   <body>
 
     <div class="container">
-      <form  method="post" action="LoginServlet" class="form-signin">
+      <form  method="post" action="LoginServlet?authenticate=yes" class="form-signin">
         <h2 class="form-signin-heading">Medicare</h2>
         <input name="login"  type="text" class="form-control" placeholder="Login" required autofocus>
         <input name="password" type="password" class="form-control" placeholder="Password" required>

@@ -6,10 +6,7 @@ package social_network;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Satyam
+ * @author Piyush
  */
-@WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
-public class AdminServlet extends HttpServlet {
+@WebServlet(name = "ReviewServlet", urlPatterns = {"/ReviewServlet"})
+public class ReviewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -34,11 +31,9 @@ public class AdminServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String strQueryParam = request.getParameter("page");
-        int intQueryParam = Integer.parseInt(strQueryParam);
         try {
             String url = "/index.jsp";
             boolean validLogin;
@@ -49,21 +44,12 @@ public class AdminServlet extends HttpServlet {
             }
             try {
                 if(validLogin) {
-                    if (intQueryParam == 1) {
-                        ArrayList<Patient> listOfPatients = PatientDBAO.getAllPatients();
-                        request.setAttribute("listOfPatients", listOfPatients);     
-                        ArrayList<Doctor> listOfDoctors = DoctorDBAO.getAllDoctors();
-                        request.setAttribute("listOfDoctors", listOfDoctors);
-                        url = "/users_list.jsp";
-                     } else if(intQueryParam == 2) {  
-                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviews();
-                         request.setAttribute("listOfReviews", listOfReviews); 
-                         url = "/monitor_reviews.jsp";
-                     } else if(intQueryParam == 3) {  
-                         ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviews();
-                         request.setAttribute("listOfReviews", listOfReviews); 
-                         url = "/reviews_search.jsp";
-                     }
+                    String type = request.getParameter("type");
+                    if (type.equals("delete")) {
+                        //TODO: Delete a review
+                     } else if(type.equals("insert")) {  
+                         //TODO: Insert a review
+                     } 
                 }
             } catch (Exception e) {
                 request.setAttribute("exception", e);
@@ -81,7 +67,7 @@ public class AdminServlet extends HttpServlet {
             out.println("<title>Servlet AdminServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AdminServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReviewServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {            
@@ -102,13 +88,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -123,13 +103,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

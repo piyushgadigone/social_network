@@ -231,6 +231,62 @@ public class SearchDBAO {
        }
    }
    
+   public static ArrayList<Review> getSearchReviews(ReviewSearch rs) 
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       Statement stmt = null;
+       String query = null;
+       try {
+           con = getConnection();
+           stmt = con.createStatement();
+           query = "SELECT * FROM Reviews WHERE ";
+           
+           if(rs!=null) {
+                if(rs.getComments() != null) {
+                    query += "comments LIKE '%"+rs.getComments()+"%' AND ";
+                }
+                if(rs.getDoctorLogin() != null) {
+                    query += "doctor_login LIKE '%"+rs.getDoctorLogin()+"%' AND ";
+                }
+                if(rs.getPatientLogin()!= null) {
+                    query += "patient_login LIKE '%"+rs.getPatientLogin()+"%' AND ";
+                }
+                if(rs.getMinRatings() >= 0) {
+                    query += "rating >= "+rs.getMinRatings()+" AND ";
+                }
+                if(rs.getMaxRatings() >= 0) {
+                    query += "rating <= "+rs.getMaxRatings()+" AND ";
+                }
+                if(rs.getMinDateTime()!=null) {
+                    query += "datetime >= '"+rs.getMinDateTime()+"' AND ";
+                }
+                if(rs.getMaxDateTime()!=null) {
+                    query += "datetime <= '"+rs.getMaxDateTime()+"' AND ";
+                }
+           }
+           query+="1=1;";
+           ResultSet resultSet = stmt.executeQuery(query);
+           ArrayList<Review> reviewList = new ArrayList<Review>();
+           while(resultSet.next()) {
+               Review review = new Review();
+               review.setDoctorLogin(resultSet.getString("doctor_login"));
+               review.setPatientLogin(resultSet.getString("patient_login"));
+               review.setRating(resultSet.getInt("rating"));
+               review.setComments(resultSet.getString("comments"));
+               review.setDatetime(resultSet.getTimestamp("datetime"));
+               reviewList.add(review);
+           }
+           return reviewList;
+       } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+       }
+   }
+   
    public static boolean exists(ArrayList<String> list, String str) {
        for(String a : list) {
            if(str.equals(a)) return true;
