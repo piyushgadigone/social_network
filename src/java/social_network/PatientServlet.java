@@ -54,6 +54,10 @@ public class PatientServlet extends HttpServlet {
                    request.getServletContext()
                             .getRequestDispatcher("/patient_friends.jsp")
                             .forward(request, response);
+               } else if (request.getParameter("page").equals("home")) {
+                    request.getServletContext()
+                           .getRequestDispatcher("/patient_home.jsp")
+                           .forward(request, response);
                }
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DoctorServlet.class.getName()).log(Level.SEVERE, null, ex);

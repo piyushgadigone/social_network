@@ -41,7 +41,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="PatientServlet?page=home">Home</a></li>
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
           <li><a href="PatientServlet?page=friends">Friends</a></li>
@@ -76,7 +76,6 @@
                }
             %> 
           </div>
-          </br></br>
       </div>
       <div style="height: 550px;">
       <h3>Friends</h3>

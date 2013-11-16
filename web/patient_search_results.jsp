@@ -47,7 +47,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="LoginServlet">Home</a></li>
+          <li class="active"><a href="PatientServlet?page=home">Home</a></li>
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
           <li><a href="PatientServlet?page=friends">Friends</a></li>
@@ -57,7 +57,7 @@
       </div>
       
       <div style="height: 800px;">
-      <h3>Search Results</h3>
+      <h3>Search Results</h3><br>
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
          if (results.size() == 0) {
