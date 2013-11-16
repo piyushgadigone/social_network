@@ -1,1 +1,1 @@
-SELECT * FROM Friend;
+SELECT * FROM Reviews;

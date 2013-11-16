@@ -9,6 +9,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+<<<<<<< Updated upstream
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -65,13 +66,17 @@
                     print += delim;
                     print += specialisation;
                     delim = ", ";
+
+                    out.print("</td><td>");
+
                 }
                 out.print(print);
             %>
             </i><br>
             <span>Gender: <i><%= result.getGender() %></i> </span><br>
       <%
-           out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");
+           out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
+           out.print("<a href=\"create_review.jsp?doctor=" + result.getLogin() + "\">Review Doctor</a>");
          }
       %>       
 

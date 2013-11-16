@@ -204,7 +204,7 @@ public class PatientDBAO {
        }
    }  
    
-    public static ArrayList<Patient> getAllPatients() throws SQLException, ClassNotFoundException {
+   public static ArrayList<Patient> getAllPatients() throws SQLException, ClassNotFoundException {
        Connection con = null;
        ArrayList<Patient> listOfPatients = new ArrayList<Patient>();
        PreparedStatement pStmt = null;

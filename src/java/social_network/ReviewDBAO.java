@@ -145,6 +145,36 @@ public class ReviewDBAO {
        
    }
     
+    public static void createReview(Review review) 
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = getConnection();
+            pStmt = con.prepareStatement("INSERT INTO Reviews VALUES (?, ?, ?, ?, ?)");
+            pStmt.setString(1, review.getPatientLogin());
+            pStmt.setString(2, review.getDoctorLogin());
+            pStmt.setTimestamp(3, getCurrentTimeStamp());
+            pStmt.setInt(4, review.getRating());
+            pStmt.setString(5, review.getComments());
+            pStmt.executeUpdate();
+        }finally {
+            if(pStmt != null) {
+                pStmt.close();
+            }
+            if(con != null) {
+                con.close();
+            }
+        }
+    }
+    private static java.sql.Timestamp getCurrentTimeStamp() {
+ 
+		java.util.Date today = new java.util.Date();
+		return new java.sql.Timestamp(today.getTime());
+ 
+   }
+    
      public static void deleteReview(String patient_login, String doctor_login, String datetime) 
             throws SQLException, ClassNotFoundException {
         Connection con = null;

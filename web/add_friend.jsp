@@ -12,8 +12,7 @@
         <title>Added a new Friend</title>
     </head>
     <body>
-        
-        <h3>You are now friends with <%= request.getSession().getAttribute("login") %>!  </h3>
+        <h3>You are now friends with <%= request.getSession().getAttribute("name")%>, <%= request.getSession().getAttribute("friendLogin") %>!  </h3>
         <%
         out.print("<a href='ProfileServlet?page=1&patient=" + request.getSession().getAttribute("login") + "'/>View Profile</a>");
         %>

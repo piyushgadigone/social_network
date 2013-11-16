@@ -53,6 +53,18 @@ public class ReviewServlet extends HttpServlet {
                         url = "/reviews_search.jsp";
                      } else if(type.equals("insert")) {  
                          //TODO: Insert a review
+                         String comments = request.getParameter("comments");
+                         String rating = request.getParameter("stars");
+                         String patient_login = request.getSession().getAttribute("login").toString();
+                         String doctor_login = request.getSession().getAttribute("docLogin").toString();
+                         Review review = new Review();
+                         review.setComments(comments);
+                         review.setRating(Integer.parseInt(rating));
+                         review.setPatientLogin(patient_login);
+                         review.setDoctorLogin(doctor_login);
+                         ReviewDBAO.createReview(review);
+                         //String doctorName = request.setAttribute("doctorName", doctorName);
+                         url = "/doctor_search.jsp";
                      } 
                 }
             } catch (Exception e) {
