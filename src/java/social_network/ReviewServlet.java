@@ -65,6 +65,7 @@ public class ReviewServlet extends HttpServlet {
                          ReviewDBAO.createReview(review);
                          //String doctorName = request.setAttribute("doctorName", doctorName);
                          url = "/doctor_search.jsp";
+                         request.setAttribute("review_successful", "yes");
                      } 
                 }
             } catch (Exception e) {

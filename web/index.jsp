@@ -42,7 +42,7 @@
         <input name="password" type="password" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <% if(request.getAttribute("incorrect_credentials")!=null && request.getAttribute("incorrect_credentials").equals("yes")) { %>
-            <%= "Invalid Username or Password." %>
+            <span style="color:red"><%= "Invalid Username or Password." %></span><br>
         <% }%>
       </form>
         
