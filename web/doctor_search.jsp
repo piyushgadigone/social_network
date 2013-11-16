@@ -63,17 +63,17 @@
                 
                 <div class="form-group" style="float: left;">
                     <label for="gender">Gender</label>
-                    <select name="gender" id="gender" class="selectpicker">
+                    <select name="gender" id="gender" class="selectpicker">                        
+                        <option value=""></option>
                         <option value="m">Male</option>
                         <option value="f">Female</option>
-                        <option value="">Both</option>
                     </select>
                 </div>
                 
                 <div class="form-group" style="float: left; padding-left: 20px;">
                     <label for="stars">Minimum Star Rating</label>
                     <select name="stars" id="stars" class="selectpicker">
-                        <option value="0">0</option>
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -83,14 +83,14 @@
                 </div>
                 
                 <div class="form-group" style="float: left; padding-left: 20px; padding-right: 30px">
-                    <label for="stars">Minimum years of experience</label>
-                    <select name="numyears" id="stars" class="selectpicker">
-                        <option value="0">1</option>
-                        <option value="1">2</option>
-                        <option value="2">4</option>
-                        <option value="3">4</option>
-                        <option value="4">5</option>
-                        <option value="5">10</option>
+                    <label for="numyears">Minimum years of experience</label>
+                    <select name="numyears" id="numyears" class="selectpicker">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
                     </select>
                 </div>
                 <%
@@ -128,18 +128,19 @@
                 <div class="form-group">
                     <label for="province">Province</label>
                     <select class="selectpicker" name="province" id="province" >
-                        <option>ON</option>
-                        <option>QC</option>
-                        <option>BC</option>
-                        <option>AB</option>
-                        <option>MB</option>
-                        <option>SK</option>
-                        <option>NS</option>
-                        <option>NB</option>
-                        <option>NL</option>
-                        <option>PE</option>
-                        <option>NT</option>
-                        <option>YT</option>
+                        <option value=""></option>
+                        <option value="Ontario">ON</option>
+                        <option value="Quebec">QC</option>
+                        <option value="British Columbia">BC</option>
+                        <option value="Alberta">AB</option>
+                        <option value="Manitoba">MB</option>
+                        <option value="Saskatchewan">SK</option>
+                        <option value="Nova Scotia">NS</option>
+                        <option value="New Brunswick">NB</option>
+                        <option value="Newfoundland">NL</option>
+                        <option value="Prince Edward Island">PE</option>
+                        <option value="Northwest Territories">NT</option>
+                        <option value="Yukon">YK</option>
                         <option>NY</option>
                     </select>
                 </div>
