@@ -60,6 +60,9 @@
       <h3>Search Results</h3>
       <%
          ArrayList<Patient> results = (ArrayList<Patient>) request.getAttribute("patientSearchResults");
+         if (results.size() == 0) {
+             out.print("<i>Your query didn't match our databas.</i>");
+         }
          for (social_network.Patient result : results) {             
             String friendLogin = result.getLogin();
        %>

@@ -52,6 +52,9 @@
       <h3>Search Results</h3><br>
       <%
          ArrayList<Doctor> doctorList = (ArrayList<Doctor>) request.getAttribute("listOfDoctors");
+         if (doctorList.size() == 0) {
+             out.print("<i>Your query didn't match our databas.</i>");
+         }
          for (social_network.Doctor result : doctorList) {
        %> 
             <h4><%= result.getFirstName() + "  " + result.getLastName()%></h4>
