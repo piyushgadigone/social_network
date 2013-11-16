@@ -1,1 +1,2 @@
-SELECT * FROM Friend;
+use ece356db_pgadigon;
+SELECT * FROM Authentication;

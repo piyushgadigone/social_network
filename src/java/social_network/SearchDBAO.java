@@ -41,7 +41,7 @@ public class SearchDBAO {
                 if(ps.getLastName() != null)
                     query += "last_name LIKE '%"+ps.getLastName()+"%' AND ";
                 if(ps.getEmailAddress()!= null)
-                    query += "last_name LIKE '%"+ps.getEmailAddress()+"%' AND ";
+                    query += "email_address LIKE '%"+ps.getEmailAddress()+"%' AND ";
            }
            query+="1=1;";
            ResultSet resultSet = stmt.executeQuery(query);
