@@ -118,7 +118,7 @@ public class PatientDBAO {
                ResultSet resSet = prepSt.executeQuery();
                while (resSet.next()) {
                    Patient p = new Patient();
-                   p.setLogin(login);
+                   p.setLogin(resultSet.getString("friend_login"));
                    p.setFirstName(resSet.getString("first_name"));
                    p.setLastName(resSet.getString("last_name"));
                    p.setMiddleName(resSet.getString("middle_name"));
