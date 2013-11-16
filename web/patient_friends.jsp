@@ -57,7 +57,7 @@
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
-      <div style="height: 800px;">
+      <div style="height: 550px;">
       <h3>Friends</h3>
       <jsp:useBean id="patient" class="social_network.Patient" scope="request"/>
         <p>
