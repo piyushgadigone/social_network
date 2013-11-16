@@ -145,4 +145,26 @@ public class ReviewDBAO {
        
    }
     
+     public static void deleteReview(String patient_login, String doctor_login, String datetime) 
+            throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement pStmt = null;
+        ResultSet resultSet = null;
+        try {
+            con = getConnection();
+            pStmt = con.prepareStatement("DELETE FROM Reviews WHERE patient_login=? AND doctor_login=? AND datetime=?");
+            pStmt.setString(1, patient_login);
+            pStmt.setString(2, doctor_login);
+            pStmt.setString(3, datetime);
+            pStmt.execute();
+        }finally {
+            if (pStmt != null) {
+                pStmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }    
+        }
+    }
+    
 }

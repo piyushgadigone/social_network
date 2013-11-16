@@ -46,7 +46,11 @@ public class ReviewServlet extends HttpServlet {
                 if(validLogin) {
                     String type = request.getParameter("type");
                     if (type.equals("delete")) {
-                        //TODO: Delete a review
+                        String patient_login = request.getParameter("patient_login");
+                        String doctor_login = request.getParameter("doctor_login");
+                        String datetime = request.getParameter("datetime");
+                        ReviewDBAO.deleteReview(patient_login, doctor_login, datetime);
+                        url = "/reviews_search.jsp";
                      } else if(type.equals("insert")) {  
                          //TODO: Insert a review
                      } 
