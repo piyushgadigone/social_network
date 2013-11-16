@@ -98,7 +98,7 @@ public class SearchDBAO {
            con = getConnection();
            stmt = con.createStatement();
            ArrayList<String> doctorList = new ArrayList<String>();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * recommended_doctors WHERE patient_login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login FROM recommended_doctors WHERE patient_login=? ;");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();

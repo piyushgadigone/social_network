@@ -52,7 +52,13 @@ public class SearchServlet extends HttpServlet {
                 docSearch.setGender(gender);
             }
         }
-        
+        if(request.getParameter("recommended") != null) {
+            String recommended = (String)request.getParameter("recommended");
+            if(!recommended.isEmpty()) { 
+                docSearch.setRecommendedByFriend(true);
+                docSearch.setPatientLogin(request.getSession().getAttribute("login").toString());
+            }
+        }
         if(request.getParameter("numyears") != null) {
             Calendar now = Calendar.getInstance();
             java.util.Date curTime = now.getTime();
@@ -68,27 +74,55 @@ public class SearchServlet extends HttpServlet {
         }
         /*
         if(request.getParameter("specialisation") != null) {
+            String specialisation = (String)request.getParameter("")
             docSearch.setSpecialisation(request.getParameter("specialisation"));
+        }*/
+        
+        /*if(request.getParameter("streetNumber") != null) {
+            String streetNumber = (String)request.getParameter("streetNumber");
+            if(!streetNumber.isEmpty()) {
+                int streetNo = Integer.parseInt(streetNumber);
+                docSearch.setStreetNumber(streetNo);
+            }
+        }*/
+        
+        if(request.getParameter("stars")!= null) {
+            String ratings = (String)request.getParameter("stars");
+            if(!ratings.isEmpty()) {
+                docSearch.setRating(Integer.parseInt(ratings));
+            }
         }
-        if(request.getParameter("street_number") != null) {
-            docSearch.setStreetNumber(Integer.parseInt(request.getParameter("street_number")));
+        
+        if(request.getParameter("street") != null) {
+            String streetName = (String)request.getParameter("street");
+            if(!streetName.isEmpty()) {
+                docSearch.setStreetName(request.getParameter("street"));
+            }
         }
-        if(request.getParameter("street_name") != null) {
-            docSearch.setStreetName(request.getParameter("street_name"));
+        if(request.getParameter("postalCode") != null) {
+            String postalCode = (String)request.getParameter("postalCode");
+            if(!postalCode.isEmpty()) {
+                docSearch.setPostalCode(request.getParameter("postalCode"));
+            }
         }
-        if(request.getParameter("postal_code") != null) {
-            docSearch.setPostalCode(request.getParameter("postal_code"));
-        }
-        if(request.getParameter("house_number") != null) {
-            docSearch.setHouseNumber(request.getParameter("house_number"));
-        }
+        /*
+        if(request.getParameter("houseNumber") != null) {
+            String houseNumber = (String)request.getParameter("houseNumber");
+            if(!houseNumber.isEmpty()) {
+                docSearch.setHouseNumber(request.getParameter("houseNumber"));
+            }
+        }*/
         if(request.getParameter("city") != null) {
-            docSearch.setCity(request.getParameter("city"));
+            String city = (String)request.getParameter("city");
+            if(!city.isEmpty()) 
+                docSearch.setCity(request.getParameter("city"));
         }
         if(request.getParameter("province") != null) {
-            docSearch.setProvince(request.getParameter("province"));
+            String province = (String)request.getParameter("province");
+            if(!province.isEmpty())
+                docSearch.setProvince(request.getParameter("province"));
         }
-        */
+        
         return docSearch;
     }
     /**
