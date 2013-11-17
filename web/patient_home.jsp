@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Doctor home</title>
+    <title>Patient home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="style/bootstrap.css" rel="stylesheet">

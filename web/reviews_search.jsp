@@ -25,6 +25,14 @@
         </script>
     </head>
     <body>
+        <% if(request.getAttribute("isDeleted")!=null)   
+            { 
+            if(request.getAttribute("isDeleted").equals("true")) {
+                out.print("<span style=\"color:green\">Review deleted successfully!</span><br>");  
+            } else if(request.getAttribute("isDeleted").equals("false")) {
+                    out.print("<span style=\"color:red\">You were unable to delete the Review not deleted. Something went wrong. Please try again!</span><br>");
+            }
+        }%>
         <h1>Search for Reviews</h1>
         <form method="post" action="AdminSearchServlet">
             Doctor Login: <input type="text" name="doctor_login"><br>

@@ -36,6 +36,13 @@
   <body>
 
     <div class="container">
+        <% if(request.getSession().getAttribute("login") != null) {
+            if(!request.getSession().getAttribute("login").toString().isEmpty()) {
+                request.getSession().setAttribute("authenticate", "no");
+                response.sendRedirect("/SocialNetwork/ProfileServlet");
+            }
+        }
+        %>
       <form  method="post" action="LoginServlet?authenticate=yes" class="form-signin">
         <h2 class="form-signin-heading">Medicare</h2>
         <input name="login"  type="text" class="form-control" placeholder="Login" required autofocus>

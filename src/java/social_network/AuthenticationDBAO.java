@@ -91,22 +91,22 @@ public class AuthenticationDBAO {
            throws ClassNotFoundException, SQLException
    {
        Connection con = null;
-       Statement stmt = null;
        boolean loginSuccessful = false;
+       PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("INSERT INTO Patient VALUES (?,?,?,?,?);");
+                     
+           pStmt = con.prepareStatement("INSERT INTO Patient VALUES (?,?,?,?,?);");
            pStmt.setString(1, login);
            pStmt.setString(2, "");
            pStmt.setString(3, "");
            pStmt.setString(4, "");
            pStmt.setString(5, "");
 
-           pStmt.execute();
-       } finally {
-            if (stmt != null) {
-                stmt.close();
+           pStmt.executeUpdate(); 
+       }finally {
+            if (pStmt != null) {
+                pStmt.close();
             }
             if (con != null) {
                 con.close();
@@ -118,12 +118,11 @@ public class AuthenticationDBAO {
            throws ClassNotFoundException, SQLException
    {
        Connection con = null;
-       Statement stmt = null;
        boolean loginSuccessful = false;
+       PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("INSERT INTO Doctor VALUES (?,?,?,?,?,?,?);");
+           pStmt = con.prepareStatement("INSERT INTO Doctor VALUES (?,?,?,?,?,?,?);");
            pStmt.setString(1, login);
            pStmt.setString(2, "");
            pStmt.setString(3, "");
@@ -132,10 +131,10 @@ public class AuthenticationDBAO {
            pStmt.setString(6, "");
            pStmt.setString(7, "");
 
-           pStmt.execute();
+           pStmt.executeUpdate();
        } finally {
-            if (stmt != null) {
-                stmt.close();
+            if (pStmt != null) {
+                pStmt.close();
             }
             if (con != null) {
                 con.close();

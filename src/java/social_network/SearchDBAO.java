@@ -93,12 +93,11 @@ public class SearchDBAO {
    public static ArrayList<String> getDoctorsRecommendedByFriends(String login) 
         throws ClassNotFoundException, SQLException {
        Connection con = null;
-       Statement stmt = null;
+       PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           stmt = con.createStatement();
            ArrayList<String> doctorList = new ArrayList<String>();
-           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login FROM recommended_doctors WHERE patient_login=? ;");
+           pStmt = con.prepareStatement("SELECT doctor_login FROM recommended_doctors WHERE patient_login=? ;");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();
@@ -107,8 +106,8 @@ public class SearchDBAO {
            }
            return doctorList;
        } finally {
-            if (stmt != null) {
-                stmt.close();
+            if (pStmt != null) {
+                pStmt.close();
             }
             if (con != null) {
                 con.close();
@@ -119,12 +118,11 @@ public class SearchDBAO {
    public static ArrayList<String> getDoctorsWithAvgRating(int avg_rating) 
                         throws ClassNotFoundException, SQLException {
        Connection con = null;
-       Statement stmt = null;
+       PreparedStatement pStmt = null;
        try {
            con = getConnection();
-           stmt = con.createStatement();
            ArrayList<String> doctorList = new ArrayList<String>();
-           PreparedStatement pStmt = con.prepareStatement("SELECT doctor_login, avg_rating FROM doctor_rating " +
+           pStmt = con.prepareStatement("SELECT doctor_login, avg_rating FROM doctor_rating " +
             "HAVING avg_rating >= ?");
            pStmt.setInt(1, avg_rating);
 
@@ -134,8 +132,8 @@ public class SearchDBAO {
            }
            return doctorList;
        } finally {
-            if (stmt != null) {
-                stmt.close();
+            if (pStmt != null) {
+                pStmt.close();
             }
             if (con != null) {
                 con.close();
