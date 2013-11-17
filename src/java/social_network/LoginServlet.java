@@ -40,59 +40,63 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = null;
         try {
-            boolean validLogin = true;
+            // If the user has already authenticated and there attributes such as login and role are persisted
+            // then we do not require the user to re-login instead we direct them to the appropriate profile home page
             
-            String login;
-            String password = "";
-            if (request.getParameter("authenticate")!= null && request.getParameter("authenticate").equals("yes")) {
-                validLogin = false;
-                login = request.getParameter("login");
-                password = request.getParameter("password");
-            } else {
-                login = request.getSession().getAttribute("login").toString();
-            }
-            Authentication authentication = new Authentication();
-            authentication.setLogin(login);
-            authentication.setPassword(password);
-            
-            try {
-                boolean correctCredentials = AuthenticationDBAO.authenticate(authentication.getLogin(), authentication.getHashedPassword());
-                //boolean correctCredentials = AuthenticationDBAO.isValidLogin(authentication);
-                if(validLogin || correctCredentials) {
-                    if (PatientDBAO.isPatient(authentication.getLogin())) {
-                        session.setAttribute("login", authentication.getLogin());
-                        session.setAttribute("role", "patient");
-                        url = "/patient_home.jsp";
-                    } else if(DoctorDBAO.isDoctor(authentication.getLogin())) {
-                        session.setAttribute("login", authentication.getLogin());
-                        session.setAttribute("role", "doctor");
-                        Doctor doctor = DoctorDBAO.getDoctorInfo(authentication.getLogin());
-                        request.setAttribute("doctor", doctor);
-                        url = "/doctor_home.jsp";
-                    }  else if(AdminDBAO.isAdmin(authentication.getLogin())) {
-                        session.setAttribute("login", authentication.getLogin());
-                        session.setAttribute("role", "admin");
-                        Admin curAdmin = null;
-                        try {
-                            curAdmin = AdminDBAO.getAdminInfo(request.getSession().getAttribute("login").toString());
-                        } catch (SQLException ex) {
-                            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                boolean validLogin = true;
+
+                String login;
+                String password = "";
+                if (request.getParameter("authenticate")!= null && request.getParameter("authenticate").equals("yes")) {
+                    validLogin = false;
+                    login = request.getParameter("login");
+                    password = request.getParameter("password");
+                } else {
+                    login = request.getSession().getAttribute("login").toString();
+                }
+                Authentication authentication = new Authentication();
+                authentication.setLogin(login);
+                authentication.setPassword(password);
+
+                try {
+                    boolean correctCredentials = AuthenticationDBAO.authenticate(authentication.getLogin(), authentication.getHashedPassword());
+                    //boolean correctCredentials = AuthenticationDBAO.isValidLogin(authentication);
+                    if(validLogin || correctCredentials) {
+                        if (PatientDBAO.isPatient(authentication.getLogin())) {
+                            session.setAttribute("login", authentication.getLogin());
+                            session.setAttribute("role", "patient");
+                            url = "/patient_home.jsp";
+                        } else if(DoctorDBAO.isDoctor(authentication.getLogin())) {
+                            session.setAttribute("login", authentication.getLogin());
+                            session.setAttribute("role", "doctor");
+                            Doctor doctor = DoctorDBAO.getDoctorInfo(authentication.getLogin());
+                            request.setAttribute("doctor", doctor);
+                            url = "/doctor_home.jsp";
+                        }  else if(AdminDBAO.isAdmin(authentication.getLogin())) {
+                            session.setAttribute("login", authentication.getLogin());
+                            session.setAttribute("role", "admin");
+                            Admin curAdmin = null;
+                            try {
+                                curAdmin = AdminDBAO.getAdminInfo(request.getSession().getAttribute("login").toString());
+                            } catch (SQLException ex) {
+                                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            session.setAttribute("admin", curAdmin);
+                            url = "/admin_home.jsp";
                         }
-                        session.setAttribute("admin", curAdmin);
-                        url = "/admin_home.jsp";
                     }
+                    else if (correctCredentials == false){
+                        url = "/index.jsp";
+                        request.setAttribute("incorrect_credentials", "yes");
+                    }
+                    else {
+                        url = "/index.jsp";
+                    }
+                } catch (Exception e) {
+                    request.setAttribute("exception", e);
+                    url = "/error.jsp";
                 }
-                else if (correctCredentials == false){
-                    url = "/index.jsp";
-                    request.setAttribute("incorrect_credentials", "yes");
-                }
-                else {
-                    url = "/index.jsp";
-                }
-            } catch (Exception e) {
-                request.setAttribute("exception", e);
-                url = "/error.jsp";
-            }
+            
             
             getServletContext().getRequestDispatcher(url).forward(request, response);
             

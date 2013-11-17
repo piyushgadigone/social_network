@@ -34,15 +34,22 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String strQueryParam = request.getParameter("page");
-        int intQueryParam = Integer.parseInt(strQueryParam);
-        String patientLogin = request.getParameter("patient");
-        String doctorLogin = request.getParameter("doctor");
+        String strQueryParam;
+        int intQueryParam = 0;
+        String userLogin = null;
+        String docLogin = null;
+        String patLogin = null;
+        try {
+            strQueryParam = request.getParameter("page");
+            intQueryParam = Integer.parseInt(strQueryParam);
+        } catch (Exception e) {
+            request.setAttribute("error", e);
+        }
         // two input parameters
         // current session user
         // login of the user whose profile they want to see
         try {
-            String url = "/index.jsp";
+            String url = null;
             boolean validLogin;
             if (request.getSession().getAttribute("login") == null) {
                 validLogin = false;
@@ -51,33 +58,49 @@ public class ProfileServlet extends HttpServlet {
             }
             try {
                 if(validLogin) {
+                    userLogin = request.getSession().getAttribute("login").toString();
                     if(request.getSession().getAttribute("role") != null) {
                         if(request.getSession().getAttribute("role").toString().equals("admin")) {
+                            patLogin = request.getParameter("patient");
                             if (intQueryParam == 1) { // Patient Info
-                                ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patientLogin);
+                                ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsByPatient(patLogin);
                                 request.setAttribute("listOfReviews", listOfReviews);     
-                                ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patientLogin);
+                                ArrayList<Patient> listOfFriends = PatientDBAO.getAllFriends(patLogin);
                                 request.setAttribute("listOfFriends", listOfFriends);
                                 url = "/patient_view_for_admin.jsp";
                              } else if(intQueryParam == 2) {  // Doctor Info
-                                 Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(doctorLogin);
-                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                                 docLogin = request.getParameter("doctor");
+                                 Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(docLogin);
+                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(docLogin);
                                  request.setAttribute("listOfReviews", listOfReviews); 
                                  request.setAttribute("doctor", fullDoctorProfile);
                                  url = "/doctor_view_for_admin.jsp";
-                             }   
+                             }  else {
+                                 url = "/admin_home.jsp";
+                             }
                         }else if(request.getSession().getAttribute("role").toString().equals("patient")){
                              if (intQueryParam == 1) { // Patient Info
-                                Patient patient = PatientDBAO.getPatientInfo(patientLogin);
+                                patLogin = request.getParameter("patient");
+                                Patient patient = PatientDBAO.getPatientInfo(patLogin);
                                 request.setAttribute("patientForPatient", patient);
                                 url = "/patient_view_for_patient.jsp";
                              } else if(intQueryParam == 2) {  // Doctor Info
-                                 Doctor partialDoctorProfile = DoctorDBAO.getDoctorInfoForPatient(doctorLogin);
-                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                                 docLogin = request.getParameter("doctor");
+                                 Doctor partialDoctorProfile = DoctorDBAO.getDoctorInfoForPatient(docLogin);
+                                 ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(docLogin);
                                  request.setAttribute("listOfReviews", listOfReviews); 
                                  request.setAttribute("doctor", partialDoctorProfile);
                                  url = "/doctor_view_for_patient.jsp";
+                             }else {
+                                 url = "/patient_home.jsp";
                              }
+                        }else if(request.getSession().getAttribute("role").toString().equals("doctor")) {
+                            // doctor can see only his profile information
+                            Doctor fullDoctorProfile = DoctorDBAO.getDoctorInfo(userLogin);
+                            //ArrayList<Review> listOfReviews = ReviewDBAO.getAllReviewsForDoctor(doctorLogin);
+                            //request.setAttribute("listOfReviews", listOfReviews); 
+                            request.setAttribute("doctor", fullDoctorProfile);
+                            url = "/doctor_home.jsp";
                         }
                     }
                 }
