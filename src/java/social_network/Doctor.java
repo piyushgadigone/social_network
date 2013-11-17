@@ -4,6 +4,7 @@
  */
 package social_network;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 

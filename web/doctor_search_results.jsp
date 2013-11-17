@@ -4,6 +4,7 @@
     Author     : Satyam
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="social_network.Doctor"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -76,7 +77,8 @@
             %>
             </i><br>
             <span>Gender: <i><%= result.getGender() %></i> </span><br>
-            <span>Average Rating: <i><%= result.getAvgRating()%></i> </span><br>
+            <% DecimalFormat avgRatingDF = new DecimalFormat("#.##"); %>
+            <span>Average Rating: <i><%= avgRatingDF.format(result.getAvgRating()) %></i> </span><br>
       <%
            out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
            out.print("<a style=\"padding-left:15px\" href=\"create_review.jsp?docLogin=" + result.getLogin() + "\">Review Doctor</a>");
