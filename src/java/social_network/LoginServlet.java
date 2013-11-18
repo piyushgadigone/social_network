@@ -47,15 +47,14 @@ public class LoginServlet extends HttpServlet {
 
                 String login = null;
                 String password = "";
-                if (request.getParameter("authenticate")!= null) {
-                    if(request.getParameter("authenticate").equals("yes")) {
+                if (request.getParameter("authenticate")!= null && request.getParameter("authenticate").equals("yes")) {
                         validLogin = false;
                         login = request.getParameter("login");
                         password = request.getParameter("password");
-                    } else {
+                } else {
                         login = request.getSession().getAttribute("login").toString();
-                    }
                 }
+                
                 Authentication authentication = new Authentication();
                 authentication.setLogin(login);
                 authentication.setPassword(password);
