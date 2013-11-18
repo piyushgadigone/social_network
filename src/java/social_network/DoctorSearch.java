@@ -24,7 +24,7 @@ public class DoctorSearch {
     private String houseNumber = null;
     private String city = null;
     private String province = null;
-    private int rating = -1;
+    private double rating = -1;
     private boolean recommendedByFriend = false;
     private String patientLogin = null; //Set if recommendedByFriend is set to true
 
@@ -214,14 +214,14 @@ public class DoctorSearch {
     /**
      * @return the rating
      */
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
     /**
      * @param rating the rating to set
      */
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

@@ -180,6 +180,7 @@ public class Doctor {
      * @param avgRating the avgRating to set
      */
     public void setAvgRating(double avgRating) {
+        if(avgRating == Double.NaN) avgRating=-1;
         this.avgRating = avgRating;
     }
   

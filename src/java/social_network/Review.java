@@ -13,7 +13,7 @@ public class Review {
     private String patientLogin;
     private String doctorLogin;
     private Timestamp datetime;
-    private int rating;
+    private double rating;
     private String comments;
 
     /**
@@ -61,14 +61,14 @@ public class Review {
     /**
      * @return the rating
      */
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
     /**
      * @param rating the rating to set
      */
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

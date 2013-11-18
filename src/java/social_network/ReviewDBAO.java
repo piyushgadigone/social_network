@@ -155,7 +155,7 @@ public class ReviewDBAO {
             pStmt.setString(1, review.getPatientLogin());
             pStmt.setString(2, review.getDoctorLogin());
             pStmt.setTimestamp(3, getCurrentTimeStamp());
-            pStmt.setInt(4, review.getRating());
+            pStmt.setDouble(4, review.getRating());
             pStmt.setString(5, review.getComments());
             pStmt.executeUpdate();
         }finally {

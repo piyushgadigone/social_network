@@ -140,7 +140,8 @@ public class SearchServlet extends HttpServlet {
             for(Review r : doctorList.get(i).getReviews()) {
                 avg_rating += r.getRating();
             }
-            avg_rating = avg_rating/doctorList.get(i).getReviews().size();
+            if(doctorList.get(i).getReviews().size() > 0)
+                avg_rating = avg_rating/doctorList.get(i).getReviews().size();
             doctorList.get(i).setAvgRating(avg_rating);
         }
     }
