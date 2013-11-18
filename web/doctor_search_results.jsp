@@ -78,7 +78,11 @@
             </i><br>
             <span>Gender: <i><%= result.getGender() %></i> </span><br>
             <% DecimalFormat avgRatingDF = new DecimalFormat("#.##"); %>
-            <span>Average Rating: <i><%= avgRatingDF.format(result.getAvgRating()) %></i> </span><br>
+            <span>Average Rating: <i><% if(result.getAvgRating() > 0){ %>
+              <%=  avgRatingDF.format(result.getAvgRating()) %>
+              <%} else {%>
+                <%= "No ratings available" %>
+                <%}%></i> </span><br>
       <%
            out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
            out.print("<a style=\"padding-left:15px\" href=\"create_review.jsp?docLogin=" + result.getLogin() + "\">Review Doctor</a>");

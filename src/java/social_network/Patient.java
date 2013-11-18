@@ -45,6 +45,7 @@ public class Patient {
      * @param firstName the firstName to set
      */
     public void setFirstName(String firstName) {
+        if(firstName == null) firstName = "";
         this.firstName = firstName;
     }
 
@@ -59,6 +60,7 @@ public class Patient {
      * @param middleName the middleName to set
      */
     public void setMiddleName(String middleName) {
+        if(middleName == null) middleName = "";
         this.middleName = middleName;
     }
 
@@ -73,6 +75,7 @@ public class Patient {
      * @param lastName the lastName to set
      */
     public void setLastName(String lastName) {
+        if(lastName == null) lastName = "";
         this.lastName = lastName;
     }
 
@@ -87,6 +90,7 @@ public class Patient {
      * @param emailAddress the emailAddress to set
      */
     public void setEmailAddress(String emailAddress) {
+        if(emailAddress == null) emailAddress = "";
         this.emailAddress = emailAddress;
     }
 

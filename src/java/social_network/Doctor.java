@@ -50,6 +50,7 @@ public class Doctor {
      * @param firstName the firstName to set
      */
     public void setFirstName(String firstName) {
+        if(firstName == null) firstName = "";
         this.firstName = firstName;
     }
 
@@ -64,6 +65,7 @@ public class Doctor {
      * @param middleName the middleName to set
      */
     public void setMiddleName(String middleName) {
+        if(middleName == null) middleName = "";
         this.middleName = middleName;
     }
 
@@ -78,6 +80,7 @@ public class Doctor {
      * @param lastName the lastName to set
      */
     public void setLastName(String lastName) {
+        if(lastName == null) lastName = "";
         this.lastName = lastName;
     }
 
@@ -92,6 +95,7 @@ public class Doctor {
      * @param gender the gender to set
      */
     public void setGender(String gender) {
+        if(gender == null) gender = "";
         this.gender = gender;
     }
 

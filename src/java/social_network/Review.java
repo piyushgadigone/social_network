@@ -83,6 +83,7 @@ public class Review {
      * @param comments the comments to set
      */
     public void setComments(String comments) {
+        if(comments == null) comments = "";
         this.comments = comments;
     }
 }
