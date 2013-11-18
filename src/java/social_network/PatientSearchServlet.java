@@ -82,6 +82,13 @@ public class PatientSearchServlet extends HttpServlet {
                        }                                      
                    }                 
                }
+               
+               for(int i = 0; i < listOfPats.size(); i++) {
+                    if(listOfPats.get(i).getLogin().equals(login)) {
+                        listOfPats.remove(i); 
+                    }
+               }
+               
                url = "/patient_search_results.jsp";
                request.setAttribute("patientSearchResults", listOfPats);
             }
