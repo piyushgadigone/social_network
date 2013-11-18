@@ -78,9 +78,13 @@
                     <select name="stars" id="stars" class="selectpicker">
                         <option value=""></option>
                         <option value="1">1</option>
+                        <option value="1">1.5</option>
                         <option value="2">2</option>
+                        <option value="1">3.5</option>
                         <option value="3">3</option>
+                        <option value="1">3.5</option>
                         <option value="4">4</option>
+                        <option value="1">4.5</option>
                         <option value="5">5</option>
                     </select>
                 </div>
@@ -93,6 +97,7 @@
                         <option value="2">2</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
+                        <option value="5">8</option>
                         <option value="10">10</option>
                     </select>
                 </div>

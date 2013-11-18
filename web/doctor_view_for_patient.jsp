@@ -94,6 +94,11 @@
             <%
                ArrayList<Review> reviewList;
                reviewList = (ArrayList<Review>) request.getAttribute("listOfReviews");
+                       
+               if (reviewList.size() == 0) {
+                   out.print("<i>This doctor has no reviews.</i>");
+               } 
+       
                for (social_network.Review review : reviewList) {
             %>
                       <h4><%= review.getPatientLogin()%> gave you <%= review.getRating()%> stars</h4>
