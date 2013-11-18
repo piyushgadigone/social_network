@@ -34,12 +34,4 @@ public class Authentication {
         return hashed_password;
     }
     
- 
- 
- public byte[] getHash(String password, byte[] salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-       MessageDigest digest = MessageDigest.getInstance("SHA-256");
-       digest.reset();
-       digest.update(salt);
-       return digest.digest(password.getBytes("UTF-8"));
- }
 }
