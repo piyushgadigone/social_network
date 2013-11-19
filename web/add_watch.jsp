@@ -1,12 +1,10 @@
 <%-- 
-    Document   : doctor_profile
-    Created on : 12-Nov-2013, 1:50:15 AM
-    Author     : Yash Malik
+    Document   : add_friend_servlet
+    Created on : 15-Nov-2013, 7:41:53 PM
+    Author     : Satyam
 --%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="social_network.Review"%>
-<%@page import="social_network.Patient"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +15,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
 
-    <title>Patient friends</title>
+    <title>Doctor home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="style/bootstrap.css" rel="stylesheet">
@@ -34,54 +32,29 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <style type="text/css">
-      
-      .profilelabel {
-	color:#999;
-	text-align:right;
-	vertical-align:top;
-	white-space:nowrap;
-    }
 
-  </style>
   <body>
 
     <div class="container" style="min-height: 550px;">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="LoginServlet">Home</a></li>
+          <li class="active"><a href="PatientServlet?page=home">Home</a></li>
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
-          <li class="active"><a href="PatientServlet?page=friends">Friends</a></li>
+          <li><a href="PatientServlet?page=friends">Friends</a></li>
           <li><a href="PatientServlet?page=watch">Watch</a></li>
           <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
       <div>
-      <h3>Friends</h3>
-      <jsp:useBean id="patient" class="social_network.Patient" scope="request"/>
-        <p>
-            <%
-              ArrayList<Patient> friendsList;
-              friendsList = patient.getFriends(); 
-              if ((friendsList).size() == 0) {
-                  out.print("<i>No friends.</i>");
-              } 
-            %>
-            
-            <%
-                for (Patient p : friendsList) {
-            %>
-                    <a href="ProfileServlet?page=1&patient=<%= p.getLogin()%>">
-                        <%= p.getFirstName() + " " + p.getLastName()%>
-                    </a><br>
-            <%
-                }
-            %>           
-        </p>
+        <h3>New watch added!</h3>
+        <span>You are now watching <%= request.getAttribute("doctorWatchLogin") %>!</span>
+        <br>
+        <%
+        //out.print("<a href='ProfileServlet?page=1&patient=" + request.getAttribute("doctorWatchLogin") + "'/>View Profile</a>");
+        %>
       </div>
-
     </div> <!-- /container -->
     <div class="footer">
         <p>&copy; Medicare 2013</p>

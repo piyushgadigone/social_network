@@ -46,6 +46,7 @@
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
           <li><a href="PatientServlet?page=friends">Friends</a></li>
+          <li><a href="PatientServlet?page=watch">Watch</a></li>
           <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>
@@ -86,6 +87,7 @@
       <%
            out.print("<a href=\"ProfileServlet?page=2&doctor=" + result.getLogin() + "\">View full profile</a>");           
            out.print("<a style=\"padding-left:15px\" href=\"create_review.jsp?docLogin=" + result.getLogin() + "\">Review Doctor</a>");
+           out.print("<a style=\"padding-left:15px\" href=\"AddWatchServlet?docLogin=" + result.getLogin() + "\">Watch Doctor</a>");
          }
       %>       
 

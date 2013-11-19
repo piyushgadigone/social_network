@@ -41,6 +41,7 @@
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
           <li><a href="PatientServlet?page=friends">Friends</a></li>
+          <li><a href="PatientServlet?page=watch">Watch</a></li>
           <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>

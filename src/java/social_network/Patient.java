@@ -18,6 +18,7 @@ public class Patient {
     private String emailAddress;  
     private ArrayList<Review> reviewsMade;
     private ArrayList<Patient> friends;
+    private ArrayList<Watch> watchList;
     private boolean isFriend = false;
 
     /**
@@ -134,5 +135,19 @@ public class Patient {
      */
     public void setIsFriend(boolean isFriend) {
         this.isFriend = isFriend;
+    }
+
+    /**
+     * @return the watchList
+     */
+    public ArrayList<Watch> getWatchList() {
+        return watchList;
+    }
+
+    /**
+     * @param watchList the watchList to set
+     */
+    public void setWatchList(ArrayList<Watch> watchList) {
+        this.watchList = watchList;
     }
 }

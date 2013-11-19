@@ -72,6 +72,32 @@ public class PatientDBAO {
             }    
        }
    }
+ 
+   public static boolean addWatch (String patientLogin, String doctorLogin)
+           throws ClassNotFoundException, SQLException {
+       Connection con = null;
+       PreparedStatement pStmt = null;
+       try {
+           con = getConnection();
+           
+           pStmt = con.prepareStatement("INSERT INTO WatchList (patient_login, doctor_login) VALUES (?, ?)");
+           pStmt.setString(1, patientLogin);
+           pStmt.setString(2, doctorLogin);
+           pStmt.executeUpdate();
+           return true;   
+           
+       }catch(SQLException e) {
+           System.out.println(e.getMessage());
+           return false;
+       }finally {
+           if(pStmt != null) {
+               pStmt.close();
+           }
+           if(con != null) {
+               con.close();
+           }
+       }
+   }
    
    public static boolean addFriend (String patientLogin, String friendLogin)
            throws ClassNotFoundException, SQLException {
@@ -98,7 +124,6 @@ public class PatientDBAO {
            }
        }
    }
-
    
    public static ArrayList<Patient> getAllFriends (String login) 
            throws ClassNotFoundException, SQLException {
@@ -195,6 +220,35 @@ public class PatientDBAO {
                }
            } 
            patient.setFriends(friends);
+           
+           // add watches of this patient
+           pStmt = con.prepareStatement("SELECT * FROM watch_view WHERE patient_login=?");
+           pStmt.setString(1, login);
+           resultSet = pStmt.executeQuery();
+           ArrayList<Watch> watchList = new ArrayList<Watch>();
+           while (resultSet.next()) {
+            Watch w = new Watch();
+            PreparedStatement prepSt = con.prepareStatement("SELECT * FROM review_view WHERE doctor_login=?");
+            String doctorLogin = resultSet.getString("doctor_login");
+            w.setDoctor_login(doctorLogin);
+            w.setPatient_login(login);
+            prepSt.setString(1, doctorLogin);
+            ResultSet resSet = prepSt.executeQuery(); 
+            ArrayList<Review> reviewList = new ArrayList<Review>();
+            while (resSet.next()) {
+                Review rev = new Review();
+                rev.setComments(resSet.getString("comments"));
+                rev.setDoctorLogin(resSet.getString("doctor_login"));
+                rev.setPatientLogin(resSet.getString("patient_login"));
+                rev.setDatetime(resSet.getTimestamp("datetime"));
+                rev.setRating(resSet.getInt("rating"));
+                reviewList.add(rev);
+            }
+            w.setDoctor_reviews(reviewList);
+            watchList.add(w);
+           }
+           patient.setWatchList(watchList);
+
            return patient;
        } finally {
             if (stmt != null) {

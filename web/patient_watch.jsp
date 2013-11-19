@@ -6,6 +6,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="social_network.Review"%>
 <%@page import="social_network.Patient"%>
+<%@page import="social_network.Watch"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,31 +53,46 @@
           <li><a href="LoginServlet">Home</a></li>
           <li><a href="PatientServlet?page=profile">Profile</a></li>
           <li><a href="PatientServlet?page=reviews">Reviews</a></li>
-          <li class="active"><a href="PatientServlet?page=friends">Friends</a></li>
-          <li><a href="PatientServlet?page=watch">Watch</a></li>
+          <li><a href="PatientServlet?page=friends">Friends</a></li>
+          <li class="active"><a href="PatientServlet?page=watch">Watch</a></li>
           <li><a href="LogoutServlet">Logout</a></li>
         </ul>
         <h3 class="text-muted">Medicare</h3>
       </div>
       <div>
-      <h3>Friends</h3>
+      <h3>Watch List</h3><br>
       <jsp:useBean id="patient" class="social_network.Patient" scope="request"/>
         <p>
             <%
-              ArrayList<Patient> friendsList;
-              friendsList = patient.getFriends(); 
-              if ((friendsList).size() == 0) {
-                  out.print("<i>No friends.</i>");
+              ArrayList<Watch> watchList;
+              watchList = patient.getWatchList();
+              if ((watchList).size() == 0) {
+                  out.print("<i>No doctors being watched.</i>");
               } 
             %>
             
             <%
-                for (Patient p : friendsList) {
+                for (Watch w : watchList) {
+                    String doctor_login = w.getDoctor_login();
+                    ArrayList<Review> reviews = w.getDoctor_reviews(); %>
+                    <h3><%= doctor_login %></h3><br>
+                    
+                    <div class="" style="padding-left: 15px;">
+            <%      
+                    if ((reviews).size() == 0) {
+                        out.print("<i>No reviews added.</i><br>");
+                    } 
+                    for (social_network.Review review : reviews) {
             %>
-                    <a href="ProfileServlet?page=1&patient=<%= p.getLogin()%>">
-                        <%= p.getFirstName() + " " + p.getLastName()%>
-                    </a><br>
+                         <h4><%= review.getPatientLogin() %> gave <%= review.getDoctorLogin()%>  <%= review.getRating()%> stars</h4>
+                         <p>On <i><%= review.getDatetime()%></i></p>
+                         <p><%= review.getComments()%></p>
+               <%
+                    } 
+               %>
+                    </div>
             <%
+               
                 }
             %>           
         </p>
