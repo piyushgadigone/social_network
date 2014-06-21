@@ -18,10 +18,9 @@ import java.util.ArrayList;
  */
 public class ReviewDBAO {
     
-    public static final String url = "jdbc:mysql://eceweb.uwaterloo.ca:3306/";
-    public static final String user = "user_pgadigon";
-    public static final String pwd = "user_pgadigon";
-
+    public static final String url = "jdbc:mysql://localhost:3306/";
+    public static final String user = "root";
+    public static final String pwd = "";
     public static void testConnection()
             throws ClassNotFoundException, SQLException {
         Connection con = null;
