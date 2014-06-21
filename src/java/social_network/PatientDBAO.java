@@ -57,7 +57,7 @@ public class PatientDBAO {
        try {
            con = getConnection();
            stmt = con.createStatement();
-           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM patient_view WHERE login=?");
+           PreparedStatement pStmt = con.prepareStatement("SELECT * FROM Patient WHERE login=?");
            pStmt.setString(1, login);
 
            ResultSet resultSet = pStmt.executeQuery();
